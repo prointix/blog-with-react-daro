@@ -1,5 +1,16 @@
-function Home() {
-  return <div>Home</div>;
-}
+import React from "react";
+import Header from "../components/Header";
+import { PostItem } from "../components/PostItem";
 
-export default Home;
+interface HomeProps {}
+
+export const Home: React.FC = () => {
+  return (
+    <>
+      <div className="container">
+      <Header />
+      <PostItem />
+      </div>
+    </>
+  );
+};

@@ -1,5 +1,11 @@
-function NotFound() {
-  return <div>NotFound</div>;
+import React from 'react'
+
+interface NotFoundProps {
+
 }
 
-export default NotFound;
+export const NotFound: React.FC = () => {
+    return (
+      <div></div>
+    );
+}
