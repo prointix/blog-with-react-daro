@@ -6,11 +6,10 @@ export interface IAuthContext {
   signed: boolean;
   user: IUser | null;
   loading: boolean;
-  error: {
-    message: string;
-  };
+  error: boolean;
   logout: () => void;
   login: (data: IAuthResponse) => void;
+  dispatch: React.Dispatch<any>;
 }
 
 export type IAuthResponse= {
@@ -19,6 +18,3 @@ export type IAuthResponse= {
 }
 
 
-export interface AuthProviderProps{
-  children: ReactNode;
-}

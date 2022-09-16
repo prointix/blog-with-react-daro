@@ -9,6 +9,7 @@ import faceBook from "../assets/img/facebook.png";
 import apple from "../assets/img/apple.png";
 import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
+import { IAuthResponse } from "../types";
 
 interface IFormInputs {
   email: string;
@@ -16,12 +17,30 @@ interface IFormInputs {
 }
 
 function Login() {
-  const [credentials, setCredentials] = useState({
-    username: undefined,
-    password: undefined,
-  });
+  const [credentials, setCredentials] = useState<IAuthResponse>(
+    {} as IAuthResponse
+  );
 
   const { state, dispatch } = useContext(AuthContext);
+
+  const handleChange = (e: any) => {
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    console.log(e.target.value)
+  };
+  const handleClick = async (e: any) => {
+    e.preventDefault();
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.post(
+        "http://localhost:8800/api/auth/login",
+        credentials
+      );
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    } catch (err: any) {
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+      console.log(err.response.data);
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -32,23 +51,6 @@ function Login() {
   } = useForm<IFormInputs>();
 
   const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
-
-  const handleChange = (e:any) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-
-  const handleClick = async (e:any) => {
-    e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
-    try {
-      const res = await axios.post("http://localhost:8800/api/auth/login", credentials);
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-      navigate("/");
-    } catch (err:any) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-      console.log(err.response.data);
-    }
-  };
 
   return (
     <div className="sign-in">
@@ -74,11 +76,9 @@ function Login() {
               </p>
               <span>
                 No Account?{" "}
-                <a id="link" href="#">
-                  <Link to={"/sign-up"}>
+                <Link to="/signup" id="link">
                     <p>Sign up</p>
-                  </Link>
-                </a>
+                </Link>
               </span>
             </div>
             <div className="login-signin">Sign in</div>
@@ -98,46 +98,37 @@ function Login() {
               </div>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="login-input">
-                <label htmlFor="" className="input">
+            <div className="login-input">
+          <label htmlFor="" className="input">
                   Enter your username or email address
                 </label>
                 <br />
-                <input
-                  type="text"
-                  placeholder="  email address"
-                  
-                  {...register("email", { required: true })}
-                  onChange={handleChange}
-                />
-                <span id="error">
-                  {errors.email && "email is required"}
-                </span>
-                <br />
+          <input
+            type="text"
+            placeholder="username"
+            id="username"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <br />
                 <br />
                 <label htmlFor="" className="input">
                   Enter your password
                 </label>
-                <br />
-                <input
-                  type="password"
-                  placeholder="   password"
-                  {...register("password", {
-                    required: true,
-                    min: 12,
-                    max: 99,
-                  })}
-                  onChange={handleChange}
-                />
-                <span id="error">
-                  {errors.password && "password is required"}
-                </span>
-                <a href="#">
-                  <span>Forgot Password</span>
-                </a>
-                  <button onClick={handleClick} className="submit-btn">Sign in</button>
-                  
-              </div>
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            onChange={handleChange}
+            className="lInput"
+          />
+          <button disabled={state.loading} onClick={handleClick} className="submit-btn">
+            SignIn
+          </button>
+          {state.error && <span className="failure">{state.error}</span>}
+  
+
+      </div>
             </form>
           </div>
         </div>

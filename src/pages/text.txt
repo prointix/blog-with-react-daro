@@ -1,0 +1,43 @@
+<div className="login-input">
+                <label htmlFor="" className="input">
+                  Enter your username or email address
+                </label>
+                <br />
+                <input
+                  type="text"
+                  placeholder="  email address"
+                  {...register("email", { required: true })}
+                  onChange={handleChange}
+                />
+                <span id="error">{errors.email && "email is required"}</span>
+                <br />
+                <br />
+                <label htmlFor="" className="input">
+                  Enter your password
+                </label>
+                <br />
+                <input
+                  type="password"
+                  placeholder="   password"
+                  {...register("password", {
+                    required: true,
+                    min: 12,
+                    max: 99,
+                  })}
+                  onChange={handleChange}
+                />
+                <span id="error">
+                  {errors.password && "password is required"}
+                </span>
+                <a href="#">
+                  <span>Forgot Password</span>
+                </a>
+                <button
+                  disabled={state.loading}
+                  onClick={handleClick}
+                  className="submit-btn"
+                >
+                  Sign in
+                </button>
+                {state.error && <span className="failure">{}</span>}
+              </div>

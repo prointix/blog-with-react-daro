@@ -1,25 +1,14 @@
-import { ReactNode } from "react";
 import {
+  default as React,
   createContext,
    Dispatch,
-  useEffect,
   useReducer,
+
 } from "react";
+import { IAuthContext, IAuthResponse } from "../types";
 
-import { IAuthContext, AuthProviderProps } from "../types";
 
-// TODO: Create authentication context
 type AppState = typeof INITIAL_STATE;
-
-const INITIAL_STATE = {
-  user: JSON.parse(localStorage.getItem("user") || "{}"),
-  loading: false,
-  error: 
-  {
-    message:""
-  },
-  dispatch: (() => undefined) as Dispatch<any>,
-};
 
 type Action =
 | { type: "LOGIN_START" }
@@ -27,11 +16,26 @@ type Action =
 | { type: "LOGIN_FAILURE"; payload: any }
 | { type: "LOGOUT" };
 
+interface UserContextProviderProps {
+  children: React.ReactNode;
+}
+
+const INITIAL_STATE: IAuthContext = {
+  signed:false,
+  user: JSON.parse(localStorage.getItem("user") || "{}"),
+  loading: false,
+  error: false,
+  dispatch: (() => undefined) as Dispatch<any>,
+  login: (data: IAuthResponse) => {},
+  logout: () => {},
+};
+
 const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case "LOGIN_START":
       return {
         ...state,
+        signed: false,
         user: null,
         loading: true,
         error: false,
@@ -39,6 +43,7 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
+        signed: true,
         user: action.payload,
         loading: false,
         error: action.payload,
@@ -47,6 +52,7 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_FAILURE":
       return {
         ...state,
+        signed: false,
         user: null,
         loading: false,
         error: action.payload,
@@ -54,6 +60,7 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGOUT":
       return {
         ...state,
+        signed: false,
         user: null,
         loading: false,
         error: null,
@@ -63,24 +70,35 @@ const reducer = (state: AppState, action: Action) => {
   }
 };
 
-export const AuthProvider = ({ children }:AuthProviderProps ) => {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-
-    useEffect(() => {
-      localStorage.setItem("user", JSON.stringify(state.user));
-    }, [state.user]);
-
-    return (
-      <AuthContext.Provider value={{ state, dispatch }}>
-        {children}
-      </AuthContext.Provider>
-    );
-};
-
-// TODO: Create custom auth hook
-export const AuthContext = createContext<{
+const AuthContext = createContext<{
   state: AppState;
   dispatch: Dispatch<Action>;
 }>({ state: INITIAL_STATE, dispatch: () => {} });
 
-// export const useAuth = () => ({});
+
+const AuthProvider = ({ children }: UserContextProviderProps) => {
+  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+
+  // create login function as a props
+  // const login = (data: IAuthResponse) => {
+  //   dispatch({ type: "LOGIN_START" });
+  //   try {
+  //     dispatch({ type: "LOGIN_SUCCESS", payload: data });
+  //     localStorage.setItem("user", JSON.stringify(data));
+  //   } catch (error) {
+  //     dispatch({ type: "LOGIN_FAILURE", payload: error });
+  //   }
+  // };
+  
+  return (
+    <AuthContext.Provider value={{ state, dispatch }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+
+
+export { AuthContext, AuthProvider };
+
+
