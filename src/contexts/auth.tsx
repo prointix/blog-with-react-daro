@@ -3,6 +3,7 @@ import {
   createContext,
    Dispatch,
   useReducer,
+  useContext,
 
 } from "react";
 import { IAuthContext, IAuthResponse } from "../types";
@@ -73,31 +74,24 @@ const reducer = (state: AppState, action: Action) => {
 const AuthContext = createContext<{
   state: AppState;
   dispatch: Dispatch<Action>;
-}>({ state: INITIAL_STATE, dispatch: () => {} });
+}>({ state: INITIAL_STATE, dispatch: () => {}}); 
 
 
 const AuthProvider = ({ children }: UserContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  // create login function as a props
-  // const login = (data: IAuthResponse) => {
-  //   dispatch({ type: "LOGIN_START" });
-  //   try {
-  //     dispatch({ type: "LOGIN_SUCCESS", payload: data });
-  //     localStorage.setItem("user", JSON.stringify(data));
-  //   } catch (error) {
-  //     dispatch({ type: "LOGIN_FAILURE", payload: error });
-  //   }
-  // };
-  
+  //create login function savaing token to local storage
+
+
+
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ state, dispatch}}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-
+export const useAuth = useContext(AuthContext);
 
 export { AuthContext, AuthProvider };
 

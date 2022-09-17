@@ -9,7 +9,7 @@ import faceBook from "../assets/img/facebook.png";
 import apple from "../assets/img/apple.png";
 import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
-import { IAuthResponse } from "../types";
+import { IAuthResponse, ILogin } from "../types";
 
 interface IFormInputs {
   email: string;
@@ -17,30 +17,41 @@ interface IFormInputs {
 }
 
 function Login() {
-  const [credentials, setCredentials] = useState<IAuthResponse>(
-    {} as IAuthResponse
-  );
-
+  const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
+  const [token, setToken] = useState<IAuthResponse>({} as IAuthResponse);
   const { state, dispatch } = useContext(AuthContext);
 
   const handleChange = (e: any) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    console.log(e.target.value)
+    console.log(e.target.value);
   };
+
+  state.login = (token: any) => {
+    localStorage.setItem("token", JSON.stringify(token.accessToken));
+  };
+
   const handleClick = async (e: any) => {
     e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
     try {
-      const res = await axios.post(
-        "http://localhost:8800/api/auth/login",
-        credentials
-      );
-      dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
-    } catch (err: any) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
-      console.log(err.response.data);
-    }
+     const { data } = await axios.post<IAuthResponse>(
+      "https://blogserver.fly.dev/auth/login",
+      credentials,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    dispatch({ type: "LOGIN_SUCCESS", payload: data });
+    state.login(data);
+    navigate("/");
+    return data;
+
+    } catch (error) {
+      dispatch({ type: "LOGIN_FAILURE", payload: error });
+      console.log(error);
   };
+}
 
   const navigate = useNavigate();
 
@@ -76,8 +87,8 @@ function Login() {
               </p>
               <span>
                 No Account?{" "}
-                <Link to="/signup" id="link">
-                    <p>Sign up</p>
+                <Link to="/sign-up" id="link">
+                  <p>Sign up</p>
                 </Link>
               </span>
             </div>
@@ -98,37 +109,40 @@ function Login() {
               </div>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="login-input">
-          <label htmlFor="" className="input">
-                  Enter your username or email address
+              <div className="login-input">
+                <label htmlFor="" className="input">
+                  email address
                 </label>
                 <br />
-          <input
-            type="text"
-            placeholder="username"
-            id="username"
-            onChange={handleChange}
-            className="lInput"
-          />
-          <br />
+                <input
+                  type="text"
+                  placeholder="username"
+                  id="email"
+                  onChange={handleChange}
+                  className="lInput"
+                />
+                <br />
                 <br />
                 <label htmlFor="" className="input">
                   Enter your password
                 </label>
-          <input
-            type="password"
-            placeholder="password"
-            id="password"
-            onChange={handleChange}
-            className="lInput"
-          />
-          <button disabled={state.loading} onClick={handleClick} className="submit-btn">
-            SignIn
-          </button>
-          {state.error && <span className="failure">{state.error}</span>}
-  
-
-      </div>
+                <input
+                  type="password"
+                  placeholder="password"
+                  id="password"
+                  onChange={handleChange}
+                  className="lInput"
+                />
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <button
+                  disabled={state.loading}
+                  onClick={handleClick}
+                  className="submit-btn"
+                >
+                  SignIn
+                </button>
+                {state.error && <span className="failure">{state.error}</span>}
+              </div>
             </form>
           </div>
         </div>

@@ -1,8 +1,45 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 import "../assets/styles/SignIn.css"
+import { IRegister } from "../types";
+import axios from "axios";
 
 function Register() {
+
+  const [credentials, setCredentials] = useState<IRegister>({} as IRegister);
+
+
+  const handleChange = (e: any) => {
+      setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+      console.log(credentials.name)
+  };
+
+  async function handleClick(e:any) {
+    try{
+    const {data} = await axios.post<IRegister>(
+      'https://blogserver.fly.dev/auth/register',
+      credentials,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    console.log(JSON.stringify(data, null, 4));
+    return data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log('error message: ', error.message);
+      // 👇️ error: AxiosError<any, any>
+      return error.message;
+    } else {
+      console.log('unexpected error: ', error);
+      return 'An unexpected error occurred';
+    }
+  }
+}
+
   return (
     <div className="sign-in">
     <div className="logo">WeChii</div>
@@ -32,38 +69,29 @@ function Register() {
       </div>
       <div className="login-input">
         <label htmlFor="" className="input">
-        Enter your username or email address 
+        name
         </label>
         <br />
-        <input type="text" placeholder="  Username or email address" />
+        <input  onChange={handleChange} type="text" placeholder="  name" id="name" />
         <br />
         <div className="user-name-tel">
         <div className="on-top">
         <label htmlFor="" className="input">
-        User name
+        email
         </label>
         <br />
         <br />
-        <input type="text" placeholder="  Username" />
-        <br /><br />
-        </div>
-        <div className="on-top">
-        <label htmlFor="" className="input">
-        Contact Number
-        </label>
-        <br />
-        <br />
-        <input type="text" placeholder="  Phone number" />
+        <input onChange={handleChange}  type="text" placeholder="  email" id="email"/>
         <br /><br />
         </div>
         </div>
-        <label htmlFor="" className="input" >
+        <label  htmlFor="" className="input" >
           Enter your password
         </label>
         <br />
-        <input type="password" placeholder="   password" />
+        <input onChange={handleChange}  type="password" placeholder="   password" id="password" />
         <br /><br />
-        <button className="submit-btn">
+        <button onClick={handleClick} className="submit-btn">
           Sign up
         </button>
       </div>
