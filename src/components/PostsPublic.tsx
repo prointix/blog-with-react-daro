@@ -1,7 +1,6 @@
-import React from "react";
-import { Key, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../assets/styles/Home.css";
-import {  IArticle, IArticleResponse } from "../types";
+import { IArticle } from "../types";
 import api from "../utils/api";
 
 // interface PostsPublicProps{
@@ -11,16 +10,18 @@ import api from "../utils/api";
 //     featuredAsset: String
 // }
 
-export const PostsPublic: React.FC =() => {
+export const PostsPublic: React.FC = () => {
   const [item, setItem] = useState<IArticle>({} as IArticle);
 
   const fetchData = async () => {
     const result = await api.get<IArticle>("/articles");
-    setItem(result.data);
-    console.log(item)
+    setItem(result.data.data);
+    // console.log(Object.keys(result.data.data))
+    //console log the title of each item
+    console.log(result.data.data);
   };
 
-  useEffect( () => {
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -30,13 +31,9 @@ export const PostsPublic: React.FC =() => {
       <h1>Posts</h1>
       <div className="posts">
         <div className="post">
-          {item.body}
+          {item[1].title}
         </div>
       </div>
     </div>
   );
-
-}
-
-
-
+};

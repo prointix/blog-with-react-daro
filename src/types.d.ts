@@ -1,3 +1,5 @@
+import { SetStateAction } from "react";
+
 export interface IAuthContext {
   signed: boolean;
   user: IUser | null;
@@ -33,7 +35,9 @@ export interface IRegister{
   password: string;
 }
 
-export interface IArticle{
+export interface IArticle {
+  data: SetStateAction<IArticle>;
+  id: number;
   title: string;
   description?: string;
   body: string;
@@ -41,14 +45,7 @@ export interface IArticle{
 }
 
 export interface IArticleResponse{
-  id: number;
-  title: string;
-  description: string;
-  body: string;
-  published: boolean;
-  createdAt: string;
-  updateAt: string;
-  userId: number;
+  data: IArticle;
 }
 
 
