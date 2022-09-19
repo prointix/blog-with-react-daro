@@ -3,10 +3,13 @@ import {
   createContext,
    Dispatch,
   useReducer,
+  useState,
+  useEffect,
   useContext,
 
 } from "react";
-import { IAuthContext, IAuthResponse } from "../types";
+import { IAuthContext, IAuthResponse, IUser } from "../types";
+import api from "../utils/api";
 
 
 type AppState = typeof INITIAL_STATE;
@@ -79,8 +82,27 @@ const AuthContext = createContext<{
 
 const AuthProvider = ({ children }: UserContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
+  const [user, setUser] = useState<IUser>({} as IUser);
 
-  //create login function savaing token to local storage
+  
+  useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+    api.defaults.headers.common.Authorization= `Bearer ${accessToken}`;
+
+    api
+    .get<IUser>("/auth/me")
+    .then((response) => {
+      setUser(response.data);
+    }
+    )
+    .catch((error) => {
+        if(error.response.status === 401){
+            localStorage.removeItem("token");
+            dispatch({type: "LOGOUT"})
+        }
+    } );
+      
+  }, []); 
 
 
 
@@ -90,9 +112,9 @@ const AuthProvider = ({ children }: UserContextProviderProps) => {
     </AuthContext.Provider>
   );
 }
+//custome hook
+const useAuth = () => useContext(AuthContext);
 
-export const useAuth = useContext(AuthContext);
-
-export { AuthContext, AuthProvider };
+export { AuthContext, AuthProvider, useAuth };
 
 

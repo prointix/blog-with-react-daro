@@ -6,11 +6,9 @@ interface PostItemProps {}
 
 export const PostItem: React.FC = () => {
   return (
-    
-    <div>
+    <>
       
-    </div>
-    
-    
+    </>
+
   );
 };

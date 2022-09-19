@@ -33,4 +33,22 @@ export interface IRegister{
   password: string;
 }
 
+export interface IArticle{
+  title: string;
+  description?: string;
+  body: string;
+  featuredAsset: string;
+}
+
+export interface IArticleResponse{
+  id: number;
+  title: string;
+  description: string;
+  body: string;
+  published: boolean;
+  createdAt: string;
+  updateAt: string;
+  userId: number;
+}
+
 

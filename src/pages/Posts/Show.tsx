@@ -1,5 +1,5 @@
 function ShowPost() {
-  return <div>ShowPost</div>;
+  return <div></div>;
 }
 
 export default ShowPost;

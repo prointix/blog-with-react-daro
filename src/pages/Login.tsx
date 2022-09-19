@@ -2,14 +2,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState, useContext } from "react";
-import axios from "axios";
 
 import google from "../assets/img/google.png";
 import faceBook from "../assets/img/facebook.png";
 import apple from "../assets/img/apple.png";
 import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
-import { IAuthResponse, ILogin } from "../types";
+import { IAuthResponse, ILogin , IUser} from "../types";
+import api from "../utils/api";
 
 interface IFormInputs {
   email: string;
@@ -18,23 +18,26 @@ interface IFormInputs {
 
 function Login() {
   const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
-  const [token, setToken] = useState<IAuthResponse>({} as IAuthResponse);
   const { state, dispatch } = useContext(AuthContext);
+  const [user, setUser] = useState<IUser>({} as IUser);
 
   const handleChange = (e: any) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     console.log(e.target.value);
   };
 
-  state.login = (token: any) => {
-    localStorage.setItem("token", JSON.stringify(token.accessToken));
+    const login = ({user, accessToken} : IAuthResponse) => {
+    setUser(user);
+    localStorage.setItem("token", accessToken);
+    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   };
+
 
   const handleClick = async (e: any) => {
     e.preventDefault();
     try {
-     const { data } = await axios.post<IAuthResponse>(
-      "https://blogserver.fly.dev/auth/login",
+     const { data } = await api.post<IAuthResponse>(
+      "/auth/login",
       credentials,
       {
         headers: {
@@ -43,7 +46,7 @@ function Login() {
       }
     );
     dispatch({ type: "LOGIN_SUCCESS", payload: data });
-    state.login(data);
+    login(data);
     navigate("/");
     return data;
 

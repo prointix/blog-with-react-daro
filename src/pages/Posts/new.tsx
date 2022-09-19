@@ -1,7 +1,6 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/auth";
-import { IArticle, IUser } from "../../types";
+import {  IArticle, IUser } from "../../types";
 import api from "../../utils/api";
 
 
@@ -36,15 +35,17 @@ function NewPost() {
   const handlePost = async (e: any) => {
     e.preventDefault();
     try {
-     const { data } = await axios.post<IArticle>(
-      "https://blogserver.fly.dev/articles",
+     const { data } = await api.post(
+      "/articles",
       article,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
+      
     );
+    alert("Post created successfully");
     return data;
 
     } catch (error) {

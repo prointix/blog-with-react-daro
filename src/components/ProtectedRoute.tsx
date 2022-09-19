@@ -1,13 +1,21 @@
+
 import { useAuth } from "../contexts/auth";
+import {Navigate, Outlet} from "react-router-dom";
+
 
 /**
  * TODO: Create protect router and use context with `react router dom`
  * */
-
-function ProtectedRoute() {
-  const {} = useAuth();
-
-  return <div>ProtectedRoute</div>;
+type Props={
+  children?: JSX.Element;
 }
 
-export default ProtectedRoute;
+export function ProtectedRoute({children}: Props) {
+  const { state } = useAuth();
+
+  if (state.signed===false) {
+    return <Navigate to="/signin" replace />;
+  }
+  return children ? children : <Outlet/>;
+}
+

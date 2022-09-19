@@ -26,7 +26,7 @@ function Register() {
         },
       }
     );
-    console.log(JSON.stringify(data, null, 4));
+    alert("Registration successful");
     return data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
