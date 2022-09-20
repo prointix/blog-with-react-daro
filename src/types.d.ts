@@ -37,8 +37,13 @@ export interface IRegister {
 export interface IArticle {
   id: number;
   title: string;
-  description?: string;
+  description: string | null;
   body: string;
+  published: boolean;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  featuredAssetId: number;
   featuredAsset: Asset | null;
 }
 
@@ -58,7 +63,7 @@ export interface IPageMeta {
 
 export interface Asset {
   id: number;
-  fileName: strin;
+  fileName: string;
   size: number;
   type: string;
   createdAt: string;
