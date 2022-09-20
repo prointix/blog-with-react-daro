@@ -1,24 +1,46 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "../assets/styles/Home.css";
-import { IArticle } from "../types";
+import { IArticle, IArticleResponse } from "../types";
 import api from "../utils/api";
 
-// interface PostsPublicProps{
-//     title: string;
-//     description: string;
-//     body: string;
-//     featuredAsset: String
-// }
-
-export const PostsPublic: React.FC = () => {
-  const [item, setItem] = useState<IArticle>({} as IArticle);
+export const PostsPublic = () => {
+  const [articles, setArticles] = useState<IArticleResponse>({
+    data: [],
+    meta: {
+      page: 0,
+      take: 5,
+      itemCount: 0,
+      pageCount: 0,
+      hasPreviousPage: false,
+      hasNextPage: false,
+    },
+  });
 
   const fetchData = async () => {
-    const result = await api.get<IArticle>("/articles");
-    setItem(result.data.data);
-    // console.log(Object.keys(result.data.data))
-    //console log the title of each item
-    console.log(result.data.data);
+    try {
+      const result = await api.get<IArticleResponse>(
+        "/articles?order=asc&page=1&take=5"
+      );
+      setArticles(result.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchMoreData = async (e: any) => {
+    e.preventDefault();
+    try {
+      const result = await api.get<IArticleResponse>(
+        `/articles?order=asc&page=${articles.meta.page + 1}&take=5`
+      );
+      setArticles({
+        data: [...articles.data, ...result.data.data],
+        meta: result.data.meta,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -27,13 +49,45 @@ export const PostsPublic: React.FC = () => {
 
   //display the data
   return (
-    <div className="App">
-      <h1>Posts</h1>
-      <div className="posts">
-        <div className="post">
-          {item[1].title}
+    // <div className="App">
+    //   <h1>Posts</h1>
+    //   <div className="posts">
+    //     <div className="post">
+    //       {articles.data.map((article) => (
+    //         <div className="post" key={article.id}>
+    //           <h2>{article.title}</h2>
+    //           <p>{article.description}</p>
+    //           <img src={article.featuredAsset?.url} alt="featuredAsset" />
+    //         </div>
+    //       ))}
+    //     </div>
+    //   </div>
+    //   <button disabled={!articles.meta.hasNextPage} onClick={fetchMoreData}>
+    //     Load more
+    //   </button>
+    // </div>
+    <div>
+      {articles.data.map((article) => (
+        <div className="blogList-wrap">
+          <div className="blogItem-wrap">
+            <img
+              className="blogItem-cover"
+              src={article.featuredAsset?.url}
+              alt="cover"
+            />
+            <div className="text">
+              <h3>{article.title}</h3>
+              <p className="blogItem-desc">{article.description}</p>
+            </div>
+          </div>
         </div>
-      </div>
+      ))}
+      <footer>
+        <button disabled={!articles.meta.hasNextPage} onClick={fetchMoreData}>
+          {" "}
+          load more
+        </button>
+      </footer>
     </div>
   );
 };

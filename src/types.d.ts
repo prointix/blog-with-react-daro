@@ -11,41 +11,58 @@ export interface IAuthContext {
 }
 
 export interface IUser {
-  id:	number
-name:	string
-email:	string
-createdAt:	Date
-updatedAt:	Date
-
+  id: number;
+  name: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-export interface IAuthResponse{
+export interface IAuthResponse {
   accessToken: string;
   user: IUser;
 }
 
-export interface ILogin{
+export interface ILogin {
   email: string;
   password: string;
 }
 
-export interface IRegister{
+export interface IRegister {
   name: string;
   email: string;
   password: string;
 }
 
 export interface IArticle {
-  data: SetStateAction<IArticle>;
   id: number;
   title: string;
   description?: string;
   body: string;
-  featuredAsset: string;
+  featuredAsset: Asset | null;
 }
 
-export interface IArticleResponse{
-  data: IArticle;
+export interface IArticleResponse {
+  data: IArticle[];
+  meta: IPageMeta;
 }
 
+export interface IPageMeta {
+  page: number;
+  take: number;
+  itemCount: number;
+  pageCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
 
+export interface Asset {
+  id: number;
+  fileName: strin;
+  size: number;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  url: string;
+  publicId: string;
+}
