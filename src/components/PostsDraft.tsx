@@ -5,7 +5,7 @@ import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 function PostsDraft() {
-  const { signed } = useAuth();
+  const { state } = useAuth();
   const [draftArticles, setDraftArticles] = useState<IArticleResponse>({
     data: [],
     meta: {
@@ -52,7 +52,7 @@ function PostsDraft() {
 
   return (
     <div>
-      {signed == false ? (
+      {state.signed == false ? (
         <Navigate to="/signin" />
       ) : (
         <div>
