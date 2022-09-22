@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { PostItem } from "./components/PostItem";
+import ProtectedLoggedRoute from "./components/ProtectedLoggedRoute";
 import { AuthProvider } from "./contexts/auth";
 
 import { Home } from "./pages/Home";
@@ -17,8 +17,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<Login />} />
-            <Route path="/sign-up" element={<Register />} />
+            <Route element={<ProtectedLoggedRoute />}>
+              <Route path="/signin" element={<Login />} />
+              <Route path="/sign-up" element={<Register />} />
+            </Route>
             <Route path="/single-article/:id" element={<ShowPost />} />
             <Route path="/edit/:id" element={<EditPost />} />
           </Routes>

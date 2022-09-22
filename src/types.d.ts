@@ -7,7 +7,6 @@ export interface IAuthContext {
   error: boolean;
   logout: () => void;
   login: (data: IAuthResponse) => void;
-  dispatch: React.Dispatch<any>;
 }
 
 export interface IUser {
@@ -37,7 +36,7 @@ export interface IRegister {
 export interface IArticle {
   id: number;
   title: string;
-  description: string | null;
+  description?: string;
   body: string;
   published: boolean;
   createdAt: string;

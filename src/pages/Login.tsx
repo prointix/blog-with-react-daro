@@ -8,7 +8,7 @@ import faceBook from "../assets/img/facebook.png";
 import apple from "../assets/img/apple.png";
 import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
-import { IAuthResponse, ILogin , IUser} from "../types";
+import { IAuthResponse, ILogin, IUser } from "../types";
 import api from "../utils/api";
 
 interface IFormInputs {
@@ -26,45 +26,36 @@ function Login() {
     console.log(e.target.value);
   };
 
-    const login = ({user, accessToken} : IAuthResponse) => {
+  const login = ({ user, accessToken }: IAuthResponse) => {
     setUser(user);
     localStorage.setItem("token", accessToken);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    console.log(state.signed);
   };
-
 
   const handleClick = async (e: any) => {
     e.preventDefault();
+    dispatch({ type: "LOGIN_START" });
     try {
-     const { data } = await api.post<IAuthResponse>(
-      "/auth/login",
-      credentials,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    dispatch({ type: "LOGIN_SUCCESS", payload: data });
-    login(data);
-    navigate("/");
-    return data;
-
-    } catch (error) {
+      const { data } = await api.post<IAuthResponse>(
+        "/auth/login",
+        credentials,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      login(data);
+      navigate("/");
+      return data;
+    } catch (error: any) {
       dispatch({ type: "LOGIN_FAILURE", payload: error });
-      console.log(error);
+    }
   };
-}
 
   const navigate = useNavigate();
-
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<IFormInputs>();
-
-  const onSubmit: SubmitHandler<IFormInputs> = (data) => console.log(data);
 
   return (
     <div className="sign-in">
@@ -111,7 +102,7 @@ function Login() {
                 </button>
               </div>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form>
               <div className="login-input">
                 <label htmlFor="" className="input">
                   email address

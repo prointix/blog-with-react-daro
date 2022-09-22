@@ -10,7 +10,6 @@ function NewPost() {
     setArticle({ ...article, [e.target.id]: e.target.value });
     console.log(e.target.id);
   };
-  const [user, setUser] = useState<IUser | null>(null);
 
   const handlePost = async (e: any) => {
     e.preventDefault();

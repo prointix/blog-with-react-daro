@@ -1,35 +1,32 @@
 import {
   default as React,
   createContext,
-   Dispatch,
+  Dispatch,
   useReducer,
   useState,
   useEffect,
   useContext,
-
 } from "react";
 import { IAuthContext, IAuthResponse, IUser } from "../types";
 import api from "../utils/api";
 
-
 type AppState = typeof INITIAL_STATE;
 
 type Action =
-| { type: "LOGIN_START" }
-| { type: "LOGIN_SUCCESS"; payload: any }
-| { type: "LOGIN_FAILURE"; payload: any }
-| { type: "LOGOUT" };
+  | { type: "LOGIN_START" }
+  | { type: "LOGIN_SUCCESS"; payload: any }
+  | { type: "LOGIN_FAILURE"; payload: any }
+  | { type: "LOGOUT" };
 
 interface UserContextProviderProps {
   children: React.ReactNode;
 }
 
 const INITIAL_STATE: IAuthContext = {
-  signed:false,
+  signed: false,
   user: JSON.parse(localStorage.getItem("user") || "{}"),
   loading: false,
   error: false,
-  dispatch: (() => undefined) as Dispatch<any>,
   login: (data: IAuthResponse) => {},
   logout: () => {},
 };
@@ -39,11 +36,11 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_START":
       return {
         ...state,
-        signed: false,
-        user: null,
+        signed: true,
         loading: true,
         error: false,
       };
+
     case "LOGIN_SUCCESS":
       return {
         ...state,
@@ -51,7 +48,6 @@ const reducer = (state: AppState, action: Action) => {
         user: action.payload,
         loading: false,
         error: action.payload,
-      
       };
     case "LOGIN_FAILURE":
       return {
@@ -77,44 +73,37 @@ const reducer = (state: AppState, action: Action) => {
 const AuthContext = createContext<{
   state: AppState;
   dispatch: Dispatch<Action>;
-}>({ state: INITIAL_STATE, dispatch: () => {}}); 
-
+}>({ state: INITIAL_STATE, dispatch: () => {} });
 
 const AuthProvider = ({ children }: UserContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [user, setUser] = useState<IUser>({} as IUser);
 
-  
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
-    api.defaults.headers.common.Authorization= `Bearer ${accessToken}`;
+    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
     api
-    .get<IUser>("/auth/me")
-    .then((response) => {
-      setUser(response.data);
-    }
-    )
-    .catch((error) => {
-        if(error.response.status === 401){
-            localStorage.removeItem("token");
-            dispatch({type: "LOGOUT"})
+      .get<IUser>("/auth/me")
+      .then((response) => {
+        setUser(response.data);
+        return user;
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          localStorage.removeItem("token");
+          dispatch({ type: "LOGOUT" });
         }
-    } );
-      
-  }, []); 
-
-
+      });
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ state, dispatch}}>
+    <AuthContext.Provider value={{ state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 //custome hook
 const useAuth = () => useContext(AuthContext);
 
 export { AuthContext, AuthProvider, useAuth };
-
-
