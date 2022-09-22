@@ -6,11 +6,17 @@ import { PostsPublic } from "../components/PostsPublic";
 interface HomeProps {}
 
 export const Home: React.FC = () => {
+  const [active, setActive] = React.useState("Public Posts");
   return (
     <>
-      <div className="container">
-        <PostsDraft />
-      </div>
+      <nav className="container">
+        <button onClick={() => setActive("Public Posts")}>
+          {" "}
+          Public Posts{" "}
+        </button>
+        <button onClick={() => setActive("Draft Posts")}> Draft Posts </button>
+      </nav>
+      <div>{active === "Public Posts" ? <PostsPublic /> : <PostsDraft />}</div>
     </>
   );
 };

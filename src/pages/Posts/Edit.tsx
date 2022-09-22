@@ -1,5 +1,88 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { IArticle } from "../../types";
+import api from "../../utils/api";
+
 function EditPost() {
-  return <div>EditPost</div>;
+  const { id } = useParams();
+  const [article, setArticle] = useState<IArticle>({
+    id: 0,
+    title: "",
+    description: "",
+    body: "",
+    featuredAsset: null,
+    createdAt: "",
+    updatedAt: "",
+    featuredAssetId: 0,
+    published: false,
+    userId: 0,
+  });
+
+  const fetchData = async () => {
+    const { data } = await api.get<IArticle>(`/articles/${id}`);
+    setArticle(data);
+  };
+
+  const editArticle = async () => {
+    try {
+      const result = await api.patch(`/articles/${id}`, article, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChange = (e: any) => {
+    setArticle({ ...article, [e.target.id]: e.target.value });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <div>
+        <h1>Edit Post</h1>
+        <form action="">
+          <label htmlFor="">Title</label>
+          <input
+            id="title"
+            type="text"
+            value={article.title}
+            onChange={handleChange}
+          />
+          <label htmlFor="">Description</label>
+          <input
+            id="description"
+            type="text"
+            value={article?.description}
+            onChange={handleChange}
+          />
+          <label htmlFor="">Body</label>
+          <input
+            id="body"
+            type="text"
+            value={article.body}
+            onChange={handleChange}
+          />
+          <label htmlFor=""> featuredAsset</label>
+          <input
+            id="featuredAsset"
+            type="file"
+            value={article.featuredAsset?.fileName}
+            onChange={handleChange}
+          />
+          <button onClick={editArticle}>Edit</button>
+        </form>
+      </div>
+    </>
+  );
 }
 
 export default EditPost;

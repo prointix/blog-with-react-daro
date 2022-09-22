@@ -49,26 +49,9 @@ export const PostsPublic = () => {
 
   //display the data
   return (
-    // <div className="App">
-    //   <h1>Posts</h1>
-    //   <div className="posts">
-    //     <div className="post">
-    //       {articles.data.map((article) => (
-    //         <div className="post" key={article.id}>
-    //           <h2>{article.title}</h2>
-    //           <p>{article.description}</p>
-    //           <img src={article.featuredAsset?.url} alt="featuredAsset" />
-    //         </div>
-    //       ))}
-    //     </div>
-    //   </div>
-    //   <button disabled={!articles.meta.hasNextPage} onClick={fetchMoreData}>
-    //     Load more
-    //   </button>
-    // </div>
     <div>
       {articles.data.map((article) => (
-        <div className="blogList-wrap">
+        <div className="blogList-wrap" key={article.id}>
           <div className="blogItem-wrap">
             <img
               className="blogItem-cover"
@@ -80,6 +63,7 @@ export const PostsPublic = () => {
               <p className="blogItem-desc">{article.description}</p>
             </div>
           </div>
+          <Link to={`/single-article/${article.id}`}>read more</Link>
         </div>
       ))}
       <footer>

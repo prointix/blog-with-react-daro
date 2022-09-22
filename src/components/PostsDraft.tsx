@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/auth";
 import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 function PostsDraft() {
+  const { signed } = useAuth();
   const [draftArticles, setDraftArticles] = useState<IArticleResponse>({
     data: [],
     meta: {
@@ -14,7 +17,6 @@ function PostsDraft() {
       hasNextPage: false,
     },
   });
-
   const fetchData = async () => {
     try {
       const result = await api.get<IArticleResponse>(
@@ -26,16 +28,19 @@ function PostsDraft() {
     }
   };
 
+  // passing draftID to
+
   const fetchMoreData = async (e: any) => {
     e.preventDefault();
     try {
       const result = await api.get<IArticleResponse>(
-        `/articles?order=asc&page=${draftArticles.meta.page + 1}&take=5`
+        `/articles/drafts?order=asc&page=${draftArticles.meta.page + 1}&take=5`
       );
       setDraftArticles({
         data: [...draftArticles.data, ...result.data.data],
         meta: result.data.meta,
       });
+      console.log(draftArticles.data);
     } catch (err) {
       console.log(err);
     }
@@ -47,30 +52,37 @@ function PostsDraft() {
 
   return (
     <div>
-      {draftArticles.data.map((draftArticle) => (
-        <div className="blogList-wrap">
-          <div className="blogItem-wrap">
-            <img
-              className="blogItem-cover"
-              src={draftArticle.featuredAsset?.url}
-              alt="cover"
-            />
-            <div className="text">
-              <h3>{draftArticle.title}</h3>
-              <p className="blogItem-desc">{draftArticle.description}</p>
+      {signed == false ? (
+        <Navigate to="/signin" />
+      ) : (
+        <div>
+          {draftArticles.data.map((draftArticle) => (
+            <div className="blogList-wrap" key={draftArticle.id}>
+              <div className="blogItem-wrap">
+                <img
+                  className="blogItem-cover"
+                  src={draftArticle.featuredAsset?.url}
+                  alt="cover"
+                />
+                <div className="text">
+                  <h3>{draftArticle.title}</h3>
+                  <p className="blogItem-desc">{draftArticle.description}</p>
+                </div>
+              </div>
+              <Link to={`/single-article/${draftArticle.id}`}>read more</Link>
             </div>
-          </div>
+          ))}
+          <footer>
+            <button
+              disabled={!draftArticles.meta.hasNextPage}
+              onClick={fetchMoreData}
+            >
+              {" "}
+              load more
+            </button>
+          </footer>
         </div>
-      ))}
-      <footer>
-        <button
-          disabled={!draftArticles.meta.hasNextPage}
-          onClick={fetchMoreData}
-        >
-          {" "}
-          load more
-        </button>
-      </footer>
+      )}
     </div>
   );
 }
