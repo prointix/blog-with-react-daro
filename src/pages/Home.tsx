@@ -8,13 +8,22 @@ import { useAuth } from "../contexts/auth";
 interface HomeProps {}
 
 export const Home: React.FC = () => {
-  const { state } = useAuth();
+  const { state, dispatch } = useAuth();
   const [active, setActive] = React.useState("Public Posts");
   const navigate = useNavigate();
 
-  const loginNavigate = () => {
+  const loginNavigate = (e: any) => {
+    e.preventDefault();
     navigate("/signin");
   };
+
+  const logoutHandler = (e: any) => {
+    e.preventDefault();
+    localStorage.removeItem("token");
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+  };
+
   return (
     <>
       <nav className="container">
@@ -24,7 +33,7 @@ export const Home: React.FC = () => {
         </button>
         <button onClick={() => setActive("Draft Posts")}> Draft Posts </button>
         {state.signed ? (
-          <button>Logout</button>
+          <button onClick={logoutHandler}>Logout</button>
         ) : (
           <button onClick={loginNavigate}>Login</button>
         )}
