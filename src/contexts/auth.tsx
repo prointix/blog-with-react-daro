@@ -31,6 +31,8 @@ const INITIAL_STATE: IAuthContext = {
   logout: () => {},
 };
 
+//checka if token in localstorage exist
+
 const reducer = (state: AppState, action: Action) => {
   switch (action.type) {
     case "LOGIN_START":
@@ -44,7 +46,6 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
-        signed: true,
         user: action.payload,
         loading: false,
         error: action.payload,
@@ -52,7 +53,6 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_FAILURE":
       return {
         ...state,
-        signed: false,
         user: null,
         loading: false,
         error: action.payload,
@@ -60,7 +60,6 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGOUT":
       return {
         ...state,
-        signed: false,
         user: null,
         loading: false,
         error: null,
@@ -87,6 +86,9 @@ const AuthProvider = ({ children }: UserContextProviderProps) => {
       .get<IUser>("/auth/me")
       .then((response) => {
         setUser(response.data);
+        if (!!accessToken) {
+          state.signed = true;
+        }
         return user;
       })
       .catch((error) => {

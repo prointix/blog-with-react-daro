@@ -30,7 +30,6 @@ function Login() {
     setUser(user);
     localStorage.setItem("token", accessToken);
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-    console.log(state.signed);
   };
 
   const handleClick = async (e: any) => {
