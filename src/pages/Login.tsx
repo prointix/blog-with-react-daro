@@ -34,7 +34,6 @@ function Login() {
 
   const handleClick = async (e: any) => {
     e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
     try {
       const { data } = await api.post<IAuthResponse>(
         "/auth/login",
@@ -50,7 +49,7 @@ function Login() {
       navigate("/");
       return data;
     } catch (error: any) {
-      dispatch({ type: "LOGIN_FAILURE", payload: error });
+      alert(error.response.data.message);
     }
   };
 
