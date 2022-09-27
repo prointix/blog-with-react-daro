@@ -56,7 +56,7 @@ export const PostsPublic = () => {
             <img src={article.featuredAsset?.url} alt="" className="post-img" />
             <h2 className="category">Mobile</h2>
             <a href="" className="post-title">
-              Creating website using ReactTs
+              {article.title}
             </a>
             <span className="post-date">{article.createdAt}</span>
             <p className="description">{article.description}</p>
