@@ -24,8 +24,13 @@ export const Home: React.FC = () => {
     navigate("/");
   };
 
+  const createPost = async () => {
+    navigate("/new");
+  };
+
   return (
     <>
+      <Header />
       <nav className="container">
         <button onClick={() => setActive("Public Posts")}>
           {" "}
@@ -37,6 +42,7 @@ export const Home: React.FC = () => {
         ) : (
           <button onClick={loginNavigate}>Login</button>
         )}
+        <button onClick={createPost}>Create Post</button>
       </nav>
       <div>{active === "Public Posts" ? <PostsPublic /> : <PostsDraft />}</div>
     </>

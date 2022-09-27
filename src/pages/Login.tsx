@@ -1,6 +1,5 @@
 // Validation with react-hook-form
 import { Link, useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useState, useContext } from "react";
 
 import google from "../assets/img/google.png";
@@ -23,7 +22,6 @@ function Login() {
 
   const handleChange = (e: any) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    console.log(e.target.value);
   };
 
   const login = ({ user, accessToken }: IAuthResponse) => {
@@ -51,6 +49,7 @@ function Login() {
     } catch (error: any) {
       alert(error.response.data.message);
     }
+    return user;
   };
 
   const navigate = useNavigate();

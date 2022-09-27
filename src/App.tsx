@@ -5,6 +5,7 @@ import { AuthProvider } from "./contexts/auth";
 import { Home } from "./pages/Home";
 import Login from "./pages/Login";
 import EditPost from "./pages/Posts/Edit";
+import NewPost from "./pages/Posts/new";
 import ShowPost from "./pages/Posts/Show";
 import Register from "./pages/Register";
 
@@ -23,6 +24,7 @@ function App() {
             </Route>
             <Route path="/single-article/:id" element={<ShowPost />} />
             <Route path="/edit/:id" element={<EditPost />} />
+            <Route path="/new" element={<NewPost />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>

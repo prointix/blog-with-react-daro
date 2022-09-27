@@ -20,12 +20,17 @@ function ShowPost() {
   });
 
   const publishArticle = async () => {
-    try {
-      const result = await api.patch(`/articles/${id}/publish`);
-      console.log(result);
-    } catch (err) {
-      console.log(err);
+    if (confirm("Are you sure you want to publish this article?")) {
+      await api.patch(`/articles/${id}/publish`);
+      article.published = true;
+      alert("Article published successfully");
+    } else {
+      return;
     }
+  };
+
+  const backFunction = () => {
+    navigate("/");
   };
 
   const navigateToEdit = () => {
@@ -35,9 +40,9 @@ function ShowPost() {
   const deleteArticle = async () => {
     if (confirm("Do you really want to delete this article?")) {
       try {
-        const result = await api.delete(`/articles/${id}`);
-        console.log(result);
-      } catch (err) {
+        await api.delete(`/articles/${id}`);
+        alert("deleted successfully");
+      } catch (err: any) {
         console.log(err);
       }
     } else {
@@ -54,7 +59,12 @@ function ShowPost() {
   return (
     <>
       <div className="option-btn">
-        <button onClick={publishArticle}>publish</button>
+        <button onClick={backFunction}>Back</button>
+        {article.published === false ? (
+          <button onClick={publishArticle}>Publish</button>
+        ) : (
+          <button>Unpublish</button>
+        )}
         <button onClick={navigateToEdit}>edit</button>
         <button onClick={deleteArticle}>delete</button>
       </div>
