@@ -34,19 +34,23 @@ export const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <nav className="container">
-        <button onClick={() => setActive("Public Posts")}>
-          {" "}
-          Public Posts{" "}
-        </button>
-        <button onClick={() => setActive("Draft Posts")}> Draft Posts </button>
-        {state.signed ? (
-          <button onClick={logoutHandler}>Logout</button>
-        ) : (
-          <button onClick={loginNavigate}>Login</button>
-        )}
+      <div className="post-filter container">
+        <span
+          onClick={() => setActive("Public Posts")}
+          className="filter-item active-filter"
+          data-filter="Public Posts"
+        >
+          Public Posts
+        </span>
+        <span
+          onClick={() => setActive("Draft Posts")}
+          className="filter-item "
+          data-filter="Draft Posts"
+        >
+          Draft Posts
+        </span>
         <button onClick={createPost}>Create Post</button>
-      </nav>
+      </div>
       <div>{active === "Public Posts" ? <PostsPublic /> : <PostsDraft />}</div>
     </>
   );

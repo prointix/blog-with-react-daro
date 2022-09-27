@@ -55,21 +55,31 @@ function PostsDraft() {
       {state.signed == false ? (
         <Navigate to="/signin" />
       ) : (
-        <div>
-          {draftArticles.data.map((draftArticle) => (
-            <div className="blogList-wrap" key={draftArticle.id}>
-              <div className="blogItem-wrap">
+        <section className="post container">
+          {draftArticles.data.map((draftArticles) => (
+            <div className="post-box" key={draftArticles.id}>
+              <img
+                src={draftArticles.featuredAsset?.url}
+                alt=""
+                className="post-img"
+              />
+              <h2 className="category">Mobile</h2>
+              <a href="" className="post-title">
+                Creating website using ReactTs
+              </a>
+              <span className="post-date">12 Feb 2022</span>
+              <p className="description">{draftArticles.description}</p>
+              <div className="profile">
                 <img
-                  className="blogItem-cover"
-                  src={draftArticle.featuredAsset?.url}
-                  alt="cover"
+                  src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+                  alt=""
+                  className="profile-img"
                 />
-                <div className="text">
-                  <h3>{draftArticle.title}</h3>
-                  <p className="blogItem-desc">{draftArticle.description}</p>
-                </div>
+                <span className="profile-name">Daro Sim</span>
+                <Link to={`/single-article/${draftArticles.id}`}>
+                  read more
+                </Link>
               </div>
-              <Link to={`/single-article/${draftArticle.id}`}>read more</Link>
             </div>
           ))}
           <footer>
@@ -81,7 +91,7 @@ function PostsDraft() {
               load more
             </button>
           </footer>
-        </div>
+        </section>
       )}
     </div>
   );

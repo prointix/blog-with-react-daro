@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import "../assets/styles/Home.css";
 import { useAuth } from "../contexts/auth";
@@ -6,24 +7,48 @@ import { useAuth } from "../contexts/auth";
 interface HeaderProps {}
 
 export const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const { state, dispatch } = useAuth();
+  const loginNavigate = (e: any) => {
+    e.preventDefault();
+    navigate("/signin");
+  };
+
+  const logoutHandler = (e: any) => {
+    e.preventDefault();
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("token");
+      dispatch({ type: "LOGOUT" });
+    } else {
+      return;
+    }
+  };
+
   return (
     <>
-      <header className="home-header">
-        <h2>Euro Khmer Voyages</h2>
-        <h1>
-          <span>Welcome back </span> Blog <span></span>
-        </h1>
-        <p>
-          awesome place to make oneself <br /> productive and entertained
-          through daily updates.
-        </p>
+      <header>
+        <div className="nav container">
+          <a href="" className="logo">
+            ve<span>nom</span>
+          </a>
+          {state.signed ? (
+            <a onClick={logoutHandler} className="login">
+              Logout
+            </a>
+          ) : (
+            <a onClick={loginNavigate} className="login">
+              Login
+            </a>
+          )}
+        </div>
       </header>
-      <div className="searchBar-wrap">
-        <form>
-          <input type="text" placeholder="Search By Category" />
-          <button>Go</button>
-        </form>
-      </div>
+
+      <section className="home" id="home">
+        <div className="home-context container">
+          <h2 className="home-title">The TS Blog</h2>
+          <span className="home-subtitle">Your source of great content</span>
+        </div>
+      </section>
     </>
   );
 };

@@ -49,21 +49,25 @@ export const PostsPublic = () => {
 
   //display the data
   return (
-    <div>
+    <section className="post container">
       {articles.data.map((article) => (
-        <div className="blogList-wrap" key={article.id}>
-          <div className="blogItem-wrap">
+        <div className="post-box" key={article.id}>
+          <img src={article.featuredAsset?.url} alt="" className="post-img" />
+          <h2 className="category">Mobile</h2>
+          <a href="" className="post-title">
+            Creating website using ReactTs
+          </a>
+          <span className="post-date">12 Feb 2022</span>
+          <p className="description">{article.description}</p>
+          <div className="profile">
             <img
-              className="blogItem-cover"
-              src={article.featuredAsset?.url}
-              alt="cover"
+              src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+              alt=""
+              className="profile-img"
             />
-            <div className="text">
-              <h3>{article.title}</h3>
-              <p className="blogItem-desc">{article.description}</p>
-            </div>
+            <span className="profile-name">Daro Sim</span>
+            <Link to={`/single-article/${article.id}`}>read more</Link>
           </div>
-          <Link to={`/single-article/${article.id}`}>read more</Link>
         </div>
       ))}
       <footer>
@@ -72,6 +76,6 @@ export const PostsPublic = () => {
           load more
         </button>
       </footer>
-    </div>
+    </section>
   );
 };
