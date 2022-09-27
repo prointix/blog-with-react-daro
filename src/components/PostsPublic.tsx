@@ -49,33 +49,35 @@ export const PostsPublic = () => {
 
   //display the data
   return (
-    <section className="post container">
-      {articles.data.map((article) => (
-        <div className="post-box" key={article.id}>
-          <img src={article.featuredAsset?.url} alt="" className="post-img" />
-          <h2 className="category">Mobile</h2>
-          <a href="" className="post-title">
-            Creating website using ReactTs
-          </a>
-          <span className="post-date">12 Feb 2022</span>
-          <p className="description">{article.description}</p>
-          <div className="profile">
-            <img
-              src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
-              alt=""
-              className="profile-img"
-            />
-            <span className="profile-name">Daro Sim</span>
-            <Link to={`/single-article/${article.id}`}>read more</Link>
+    <>
+      <section className="post container">
+        {articles.data.map((article) => (
+          <div className="post-box" key={article.id}>
+            <img src={article.featuredAsset?.url} alt="" className="post-img" />
+            <h2 className="category">Mobile</h2>
+            <a href="" className="post-title">
+              Creating website using ReactTs
+            </a>
+            <span className="post-date">{article.createdAt}</span>
+            <p className="description">{article.description}</p>
+            <div className="profile">
+              <img
+                src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+                alt=""
+                className="profile-img"
+              />
+              <span className="profile-name">Daro Sim</span>
+              <Link to={`/single-article/${article.id}`}>read more</Link>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </section>
       <footer>
         <button disabled={!articles.meta.hasNextPage} onClick={fetchMoreData}>
           {" "}
           load more
         </button>
       </footer>
-    </section>
+    </>
   );
 };
