@@ -3,29 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import PostsDraft from "../components/PostsDraft";
 import { PostsPublic } from "../components/PostsPublic";
-import { useAuth } from "../contexts/auth";
 
 interface HomeProps {}
 
 export const Home: React.FC = () => {
-  const { state, dispatch } = useAuth();
   const [active, setActive] = React.useState("Public Posts");
   const navigate = useNavigate();
-
-  const loginNavigate = (e: any) => {
-    e.preventDefault();
-    navigate("/signin");
-  };
-
-  const logoutHandler = (e: any) => {
-    e.preventDefault();
-    if (confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("token");
-      dispatch({ type: "LOGOUT" });
-    } else {
-      return;
-    }
-  };
 
   const createPost = async () => {
     navigate("/new");
