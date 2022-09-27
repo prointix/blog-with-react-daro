@@ -19,9 +19,12 @@ export const Home: React.FC = () => {
 
   const logoutHandler = (e: any) => {
     e.preventDefault();
-    localStorage.removeItem("token");
-    dispatch({ type: "LOGOUT" });
-    navigate("/");
+    if (confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("token");
+      dispatch({ type: "LOGOUT" });
+    } else {
+      return;
+    }
   };
 
   const createPost = async () => {
