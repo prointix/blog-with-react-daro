@@ -58,28 +58,26 @@ function ShowPost() {
 
   return (
     <>
-      <div className="option-btn">
-        <button onClick={backFunction}>Back</button>
-        {article.published === false ? (
-          <button onClick={publishArticle}>Publish</button>
-        ) : (
-          <button>Unpublish</button>
-        )}
-        <button onClick={navigateToEdit}>edit</button>
-        <button onClick={deleteArticle}>delete</button>
-      </div>
-      <div className="articleItem-wrap">
-        <img
-          className="articleItem-cover"
-          src={article.featuredAsset?.url}
-          alt="cover"
-        />
-        <div className="articleItem-content">
-          <h2 className="articleItem-title">{article.title}</h2>
-          <p className="articleItem-description">{article.description}</p>
-          <p className="articleItem-body">{article.body}</p>
+      <section className="post-header">
+        <div className="option-btn">
+          <button onClick={backFunction}>Back</button>
+          {article.published === false ? (
+            <button onClick={publishArticle}>Publish</button>
+          ) : (
+            <button>Unpublish</button>
+          )}
+          <button onClick={navigateToEdit}>edit</button>
+          <button onClick={deleteArticle}>delete</button>
         </div>
-      </div>
+        <div className="header-content post-container">
+          <h1 className="header-title">{article.title}</h1>
+          <img src={article.featuredAsset?.url} alt="" className="header-img" />
+        </div>
+      </section>
+      <section className="post-content post-container">
+        <h2 className="sub-heading">{article.body}</h2>
+        <p className="post-text">{article.description}</p>
+      </section>
     </>
   );
 }
