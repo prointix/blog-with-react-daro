@@ -67,7 +67,7 @@ function PostsDraft() {
               <a href="" className="post-title">
                 Creating website using ReactTs
               </a>
-              <span className="post-date">12 Feb 2022</span>
+              <span className="post-date">{draftArticles.createdAt}</span>
               <p className="description">{draftArticles.description}</p>
               <div className="profile">
                 <img

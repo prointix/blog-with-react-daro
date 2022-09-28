@@ -3,6 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/auth";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
+import "../../assets/styles/Posts.css";
 
 function NewPost() {
   const [article, setArticle] = useState<IArticle>({} as IArticle);
@@ -11,7 +12,6 @@ function NewPost() {
 
   const handleChange = (e: any) => {
     setArticle({ ...article, [e.target.id]: e.target.value });
-    console.log(e.target.id);
   };
 
   const backFunction = () => {
@@ -34,44 +34,64 @@ function NewPost() {
   };
   return (
     <>
-      <div>
-        {state.signed === false ? (
-          <Navigate to="/signin" />
-        ) : (
-          <>
+      {state.signed === false ? (
+        <Navigate to="/signin" />
+      ) : (
+        <>
+          <div className="container-newpost">
             <button onClick={backFunction}>Back</button>
-            <form action="">
-              <input
-                onChange={handleChange}
-                type="text"
-                placeholder="title"
-                required
-                id="title"
-              />
-              <input
-                onChange={handleChange}
-                type="text"
-                placeholder="description"
-                id="description"
-              />
-              <input
-                onChange={handleChange}
-                type="text"
-                placeholder="body"
-                id="body"
-                required
-              />
-              <input
-                onChange={handleChange}
-                type="file"
-                placeholder="image"
-                id="featuredAsset"
-              />
-              <button onClick={handlePost}>submit</button>
-            </form>
-          </>
-        )}
-      </div>
+            <div className="title">New Post</div>
+            <div className="content">
+              <form action="#">
+                <div className="user-details">
+                  <div className="input-box">
+                    <span className="details">Title</span>
+                    <input
+                      type="text"
+                      onChange={handleChange}
+                      id="title"
+                      required
+                    />
+                  </div>
+                  <div className="input-box">
+                    <span className="details">description</span>
+                    <input
+                      type="text"
+                      onChange={handleChange}
+                      id="description"
+                      required
+                    />
+                  </div>
+                  <div className="input-box">
+                    <span className="details">body</span>
+                    <input
+                      type="text"
+                      onChange={handleChange}
+                      id="body"
+                      required
+                    />
+                  </div>
+                  <div className="file">
+                    <span className="details" id="FeatureFile">
+                      FeatureAssets
+                    </span>
+                    <input
+                      onChange={handleChange}
+                      type="file"
+                      placeholder="image"
+                      id="featuredAsset"
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="button">
+                  <button onClick={handlePost}> Create Posts</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

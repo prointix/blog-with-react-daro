@@ -89,7 +89,7 @@ const AuthProvider = ({ children }: UserContextProviderProps) => {
         if (!!accessToken) {
           state.signed = true;
         }
-        return user;
+        state.user(user);
       })
       .catch((error) => {
         if (error.response.status === 401) {

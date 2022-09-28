@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../assets/styles/Home.css";
-import { IArticle, IArticleResponse } from "../types";
+import { useAuth } from "../contexts/auth";
+import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 export const PostsPublic = () => {
+  const { state } = useAuth();
   const [articles, setArticles] = useState<IArticleResponse>({
     data: [],
     meta: {
@@ -49,7 +51,7 @@ export const PostsPublic = () => {
 
   //display the data
   return (
-    <>
+    <div className="Box-container">
       <section className="post container">
         {articles.data.map((article) => (
           <div className="post-box" key={article.id}>
@@ -66,18 +68,21 @@ export const PostsPublic = () => {
                 alt=""
                 className="profile-img"
               />
-              <span className="profile-name">Daro Sim</span>
+              <span className="profile-name">{state.user?.name}</span>
               <Link to={`/single-article/${article.id}`}>read more</Link>
             </div>
           </div>
         ))}
       </section>
       <footer>
-        <button disabled={!articles.meta.hasNextPage} onClick={fetchMoreData}>
-          {" "}
+        <button
+          disabled={!articles.meta.hasNextPage}
+          onClick={fetchMoreData}
+          className="load-more-btn"
+        >
           load more
         </button>
       </footer>
-    </>
+    </div>
   );
 };

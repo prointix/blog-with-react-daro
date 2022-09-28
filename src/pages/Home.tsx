@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import PostsDraft from "../components/PostsDraft";
 import { PostsPublic } from "../components/PostsPublic";
-import { useAuth } from "../contexts/auth";
 
 interface HomeProps {}
 
@@ -33,7 +32,9 @@ export const Home: React.FC = () => {
         >
           Draft Posts
         </span>
-        <button onClick={createPost}>Create Post</button>
+        <button onClick={createPost} className="button-new">
+          Create Post
+        </button>
       </div>
 
       <div>{active === "Public Posts" ? <PostsPublic /> : <PostsDraft />}</div>

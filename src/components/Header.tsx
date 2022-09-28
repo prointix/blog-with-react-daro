@@ -45,8 +45,10 @@ export const Header: React.FC = () => {
 
       <section className="home" id="home">
         <div className="home-context container">
-          <h2 className="home-title">The TS Blog</h2>
-          <span className="home-subtitle">Your source of great content</span>
+          <h2 className="home-title-box">The TS Blog</h2>
+          <span className="home-subtitle-box">
+            Your source of great content
+          </span>
         </div>
       </section>
     </>
