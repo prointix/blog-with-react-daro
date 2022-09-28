@@ -18,7 +18,13 @@ interface IFormInputs {
 function Login() {
   const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
   const { state, dispatch } = useContext(AuthContext);
-  const [user, setUser] = useState<IUser>({} as IUser);
+  const [user, setUser] = useState<IUser>({
+    createdAt: "",
+    email: "",
+    id: 0,
+    name: "",
+    updatedAt: "",
+  });
 
   const handleChange = (e: any) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -42,7 +48,7 @@ function Login() {
           },
         }
       );
-      dispatch({ type: "LOGIN_SUCCESS", payload: data });
+      dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
       login(data);
       navigate("/");
       return data;
