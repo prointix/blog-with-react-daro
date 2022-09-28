@@ -40,7 +40,6 @@ function ShowPost() {
   };
 
   const unpublishArticle = async () => {
-    console.log(article);
     await api.post("/articles", article);
     article.published = false;
   };
@@ -50,6 +49,7 @@ function ShowPost() {
       try {
         await api.delete(`/articles/${id}`);
         alert("deleted successfully");
+        navigate("/");
       } catch (err: any) {
         console.log(err);
       }

@@ -11,7 +11,7 @@ export const PostsPublic = () => {
     data: [],
     meta: {
       page: 0,
-      take: 5,
+      take: 6,
       itemCount: 0,
       pageCount: 0,
       hasPreviousPage: false,
@@ -22,7 +22,7 @@ export const PostsPublic = () => {
   const fetchData = async () => {
     try {
       const result = await api.get<IArticleResponse>(
-        "/articles?order=asc&page=1&take=5"
+        "/articles?order=asc&page=1&take=6"
       );
       setArticles(result.data);
     } catch (err) {
@@ -68,7 +68,7 @@ export const PostsPublic = () => {
                 alt=""
                 className="profile-img"
               />
-              <span className="profile-name">{state.user?.name}</span>
+              <span className="profile-name">{article.userId}</span>
               <Link to={`/single-article/${article.id}`}>read more</Link>
             </div>
           </div>
