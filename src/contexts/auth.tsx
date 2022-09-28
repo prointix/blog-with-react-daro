@@ -24,7 +24,7 @@ interface UserContextProviderProps {
 
 const INITIAL_STATE: IAuthContext = {
   signed: false,
-  user: JSON.parse(localStorage.getItem("user") || "{}"),
+  user: null,
   loading: false,
   error: false,
   login: (data: IAuthResponse) => {},
@@ -46,6 +46,7 @@ const reducer = (state: AppState, action: Action) => {
     case "LOGIN_SUCCESS":
       return {
         ...state,
+        signed: true,
         user: action.payload,
         loading: false,
         error: action.payload,
@@ -76,7 +77,7 @@ const AuthContext = createContext<{
 
 const AuthProvider = ({ children }: UserContextProviderProps) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const [user, setUser] = useState<IUser>({} as IUser);
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("token");

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/auth";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
 
 function ShowPost() {
   const { id } = useParams();
+  const { state } = useAuth();
   const navigate = useNavigate();
   const [article, setArticle] = useState<IArticle>({
     id: 0,
@@ -37,6 +39,12 @@ function ShowPost() {
     return navigate(`/edit/${id}`);
   };
 
+  const unpublishArticle = async () => {
+    console.log(article);
+    await api.post("/articles", article);
+    article.published = false;
+  };
+
   const deleteArticle = async () => {
     if (confirm("Do you really want to delete this article?")) {
       try {
@@ -55,19 +63,25 @@ function ShowPost() {
       setArticle(res.data);
     });
   }, []);
-
+  console.log(state.user);
   return (
     <>
       <section className="post-header">
         <div className="option-btn">
-          <button onClick={backFunction}>Back</button>
-          {article.published === false ? (
-            <button onClick={publishArticle}>Publish</button>
+          {state.user?.id === article.userId ? (
+            <div>
+              <button onClick={backFunction}>Back</button>
+              {article.published === false ? (
+                <button onClick={publishArticle}>Publish</button>
+              ) : (
+                <button onClick={unpublishArticle}>Unpublish</button>
+              )}
+              <button onClick={navigateToEdit}>edit</button>
+              <button onClick={deleteArticle}>delete</button>
+            </div>
           ) : (
-            <button>Unpublish</button>
+            <button onClick={backFunction}>Back</button>
           )}
-          <button onClick={navigateToEdit}>edit</button>
-          <button onClick={deleteArticle}>delete</button>
         </div>
         <div className="header-content post-container">
           <h1 className="header-title">{article.title}</h1>
