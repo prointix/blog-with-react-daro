@@ -76,7 +76,6 @@ function NewPost() {
                       FeatureAssets
                     </span>
                     <input
-                      onChange={handleChange}
                       type="file"
                       placeholder="image"
                       id="featuredAsset"

@@ -23,14 +23,16 @@ function EditPost() {
     setArticle(data);
   };
 
-  const editArticle = async () => {
+  const editArticle = async (e: any) => {
+    e.preventDefault();
     try {
-      const result = await api.patch(`/articles/${id}`, article, {
+      const result = await api.patch<IArticle>(`/articles/${id}`, article, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
       });
+      alert("edit successfully");
       return result;
     } catch (err) {
       console.log(err);
