@@ -4,6 +4,15 @@ import { useState } from "react";
 import "../assets/styles/SignIn.css";
 import { IRegister } from "../types";
 import axios from "axios";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormData = {
+  email: string;
+  password: string;
+  name: string;
+};
+
+const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
 function Register() {
   const [credentials, setCredentials] = useState<IRegister>({} as IRegister);
@@ -34,6 +43,12 @@ function Register() {
       }
     }
   }
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormData>();
 
   return (
     <div className="sign-in">
@@ -67,51 +82,53 @@ function Register() {
               </span>
             </div>
             <div className="login-signin">Sign Up</div>
-            <div className="login-input">
-              <label htmlFor="" className="input">
-                name
-              </label>
-              <br />
-              <input
-                onChange={handleChange}
-                type="text"
-                placeholder="  name"
-                id="name"
-              />
-              <br />
-              <div className="user-name-tel">
-                <div className="on-top">
-                  <label htmlFor="" className="input">
-                    email
-                  </label>
-                  <br />
-                  <br />
-                  <input
-                    onChange={handleChange}
-                    type="text"
-                    placeholder="  email"
-                    id="email"
-                  />
-                  <br />
-                  <br />
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="login-input">
+                <label htmlFor="" className="input">
+                  name
+                </label>
+                <br />
+                <input
+                  {...register("name", { required: true })}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="  name"
+                  id="name"
+                />
+                {errors.name && "email is required"}
+                <br />
+                <label htmlFor="" className="input">
+                  Enter your email
+                </label>
+                <br />
+                <input
+                  {...register("email", { required: true })}
+                  onChange={handleChange}
+                  type="email"
+                  placeholder="   email"
+                  id="email"
+                />
+                {errors.email && "email is required"}
+                <br />
+                <label htmlFor="" className="input">
+                  Enter your password
+                </label>
+                <br />
+                <input
+                  {...register("password", { required: true })}
+                  onChange={handleChange}
+                  type="password"
+                  placeholder="   password"
+                  id="password"
+                />
+                {errors.password && "email is required"}
+                <br />
+                <br />
+                <button onClick={handleClick} className="submit-btn">
+                  Sign up
+                </button>
               </div>
-              <label htmlFor="" className="input">
-                Enter your password
-              </label>
-              <br />
-              <input
-                onChange={handleChange}
-                type="password"
-                placeholder="   password"
-                id="password"
-              />
-              <br />
-              <br />
-              <button onClick={handleClick} className="submit-btn">
-                Sign up
-              </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>

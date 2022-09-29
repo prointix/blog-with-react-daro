@@ -9,6 +9,14 @@ import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
 import { IAuthResponse, ILogin, IUser } from "../types";
 import api from "../utils/api";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+type FormData = {
+  email: string;
+  password: string;
+};
+
+const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
 function Login() {
   const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
@@ -20,6 +28,11 @@ function Login() {
     name: "",
     updatedAt: "",
   });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<FormData>();
 
   const handleChange = (e: any) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -85,22 +98,7 @@ function Login() {
               </span>
             </div>
             <div className="login-signin">Sign in</div>
-            <div className="signin-btn">
-              <button className="google">
-                <img src={google} alt="" />
-                <p>Sign in with Google</p>
-              </button>
-              <div className="small-btn">
-                <button className="facebook" id="FA-icon">
-                  <img src={faceBook} alt="" id="icon" />
-                </button>
-                &nbsp; &nbsp; &nbsp;
-                <button className="apple" id="FA-icon">
-                  <img src={apple} alt="" id="icon" />
-                </button>
-              </div>
-            </div>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="login-input">
                 <label htmlFor="" className="input">
                   email address
@@ -108,11 +106,13 @@ function Login() {
                 <br />
                 <input
                   type="text"
-                  placeholder="username"
+                  placeholder="  email"
                   id="email"
+                  {...register("email", { required: true })}
                   onChange={handleChange}
                   className="lInput"
                 />
+                {errors.email && "email is required"}
                 <br />
                 <br />
                 <label htmlFor="" className="input">
@@ -120,11 +120,13 @@ function Login() {
                 </label>
                 <input
                   type="password"
-                  placeholder="password"
+                  placeholder="  password"
                   id="password"
+                  {...register("password", { required: true })}
                   onChange={handleChange}
                   className="lInput"
                 />
+                {errors.password && "password is required"}
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 <button
                   disabled={state.loading}
