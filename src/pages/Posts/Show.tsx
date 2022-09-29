@@ -64,7 +64,6 @@ function ShowPost() {
       setArticle(res.data);
     });
   }, []);
-  console.log(state.user);
   return (
     <>
       <section className="post-header">

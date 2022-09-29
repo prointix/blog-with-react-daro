@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../contexts/auth";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
@@ -13,6 +14,10 @@ function NewPost() {
   const handleChange = (e: any) => {
     setArticle({ ...article, [e.target.id]: e.target.value });
   };
+  const handleFileChange = (e: any) => {
+    setArticle({ ...article, [e.target.id]: e.target.files[0] });
+    console.log(article.featuredAsset);
+  };
 
   const backFunction = () => {
     navigate("/");
@@ -23,10 +28,11 @@ function NewPost() {
     try {
       const { data } = await api.post("/articles", article, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
       alert("Post created successfully");
+      console.log(article);
       return data;
     } catch (error) {
       alert(error);
@@ -79,6 +85,7 @@ function NewPost() {
                       type="file"
                       placeholder="image"
                       id="featuredAsset"
+                      onChange={handleFileChange}
                       required
                     />
                   </div>

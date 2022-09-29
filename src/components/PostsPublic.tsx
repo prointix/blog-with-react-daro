@@ -6,7 +6,6 @@ import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 export const PostsPublic = () => {
-  const { state } = useAuth();
   const [articles, setArticles] = useState<IArticleResponse>({
     data: [],
     meta: {

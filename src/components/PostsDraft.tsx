@@ -41,7 +41,6 @@ function PostsDraft() {
         data: [...draftArticles.data, ...result.data.data],
         meta: result.data.meta,
       });
-      console.log(draftArticles.data);
     } catch (err) {
       console.log(err);
     }
