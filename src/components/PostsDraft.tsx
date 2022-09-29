@@ -12,7 +12,7 @@ function PostsDraft() {
     data: [],
     meta: {
       page: 0,
-      take: 5,
+      take: 6,
       itemCount: 0,
       pageCount: 0,
       hasPreviousPage: false,
@@ -23,7 +23,7 @@ function PostsDraft() {
   const fetchData = async () => {
     try {
       const result = await api.get<IArticleResponse>(
-        "/articles/drafts?order=asc&page=1&take=5"
+        "/articles/drafts?order=asc&page=1&take=6"
       );
       setDraftArticles(result.data);
       setLoading(true);

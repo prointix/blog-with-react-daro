@@ -36,7 +36,7 @@ export const PostsPublic = () => {
     e.preventDefault();
     try {
       const result = await api.get<IArticleResponse>(
-        `/articles?order=asc&page=${articles.meta.page + 1}&take=5`
+        `/articles?order=asc&page=${articles.meta.page + 1}&take=6`
       );
       setArticles({
         data: [...articles.data, ...result.data.data],
