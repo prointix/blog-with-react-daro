@@ -17,6 +17,7 @@ function PostsDraft() {
       hasNextPage: false,
     },
   });
+
   const fetchData = async () => {
     try {
       const result = await api.get<IArticleResponse>(
@@ -51,8 +52,8 @@ function PostsDraft() {
   }, []);
 
   return (
-    <div>
-      {state.signed == false ? (
+    <div className="Box-container">
+      {state.signed === false ? (
         <Navigate to="/signin" />
       ) : (
         <section className="post container">
@@ -86,12 +87,18 @@ function PostsDraft() {
             <button
               disabled={!draftArticles.meta.hasNextPage}
               onClick={fetchMoreData}
+              className="load-more-btn"
+              hidden={draftArticles.data.length === 0}
             >
-              {" "}
               load more
             </button>
           </footer>
         </section>
+      )}
+      {draftArticles.data.length === 0 && (
+        <div>
+          <h1 className="no-draft">You have no draft</h1>
+        </div>
       )}
     </div>
   );

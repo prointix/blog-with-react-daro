@@ -20,14 +20,16 @@ export const Home: React.FC = () => {
       <div className="post-filter container">
         <span
           onClick={() => setActive("Public Posts")}
-          className="filter-item active-filter"
+          className={
+            active === "Public Posts" ? "active-filter" : "filter-item"
+          }
           data-filter="Public Posts"
         >
           Public Posts
         </span>
         <span
           onClick={() => setActive("Draft Posts")}
-          className="filter-item "
+          className={active === "Draft Posts" ? "active-filter" : "filter-item"}
           data-filter="Draft Posts"
         >
           Draft Posts

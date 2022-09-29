@@ -10,11 +10,6 @@ import { AuthContext } from "../contexts/auth";
 import { IAuthResponse, ILogin, IUser } from "../types";
 import api from "../utils/api";
 
-interface IFormInputs {
-  email: string;
-  password: string;
-}
-
 function Login() {
   const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
   const { state, dispatch } = useContext(AuthContext);

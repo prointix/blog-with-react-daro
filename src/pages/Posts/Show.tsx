@@ -26,6 +26,7 @@ function ShowPost() {
       await api.patch(`/articles/${id}/publish`);
       article.published = true;
       alert("Article published successfully");
+      navigate("/");
     } else {
       return;
     }

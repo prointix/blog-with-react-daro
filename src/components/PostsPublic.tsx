@@ -48,7 +48,6 @@ export const PostsPublic = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
   //display the data
   return (
     <div className="Box-container">

@@ -25,8 +25,6 @@ export const Header: React.FC = () => {
     navigate("/signin");
   };
 
-  console.log(state.signed);
-
   const logoutHandler = (e: any) => {
     e.preventDefault();
     if (confirm("Are you sure you want to logout?")) {
