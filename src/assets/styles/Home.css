@@ -85,6 +85,30 @@ header{
   cursor: pointer;
   margin-left: 20%;
 }
+
+.option-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.option-btn button{
+  color: #fd8f44;
+  margin-left: 50px;
+  font-weight: 500;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  border-radius: 2px;
+  padding: 6px;
+  width: 100px;
+}
+.option-btn button:hover{
+  background-color: #fd8f44;
+  color: #fff;
+  transition: 0.3s;
+}
+
 .Box-container{
   display: flex;
   flex-direction: column;
