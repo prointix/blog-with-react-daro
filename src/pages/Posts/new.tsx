@@ -16,7 +16,6 @@ function NewPost() {
   };
   const handleFileChange = (e: any) => {
     setArticle({ ...article, [e.target.id]: e.target.files[0] });
-    console.log(article.featuredAsset);
   };
 
   const backFunction = () => {
@@ -33,10 +32,9 @@ function NewPost() {
       });
       setArticle(data);
       alert("Post created successfully");
-      console.log(article);
       return data;
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      alert(error.response.message);
     }
   };
   return (

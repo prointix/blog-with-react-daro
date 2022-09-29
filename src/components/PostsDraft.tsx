@@ -27,8 +27,8 @@ function PostsDraft() {
       );
       setDraftArticles(result.data);
       setLoading(true);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      alert(err.response.message);
     }
   };
 
@@ -44,8 +44,8 @@ function PostsDraft() {
         data: [...draftArticles.data, ...result.data.data],
         meta: result.data.meta,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      alert(err.response.message);
     }
   };
 

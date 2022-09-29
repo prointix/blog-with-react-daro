@@ -60,7 +60,7 @@ function ShowPost() {
         alert("deleted successfully");
         navigate("/");
       } catch (err: any) {
-        console.log(err);
+        alert(err.response.message);
       }
     } else {
       return;

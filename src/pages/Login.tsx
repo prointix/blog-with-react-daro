@@ -2,9 +2,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 
-import google from "../assets/img/google.png";
-import faceBook from "../assets/img/facebook.png";
-import apple from "../assets/img/apple.png";
 import "../assets/styles/SignIn.css";
 import { AuthContext } from "../contexts/auth";
 import { IAuthResponse, ILogin, IUser } from "../types";

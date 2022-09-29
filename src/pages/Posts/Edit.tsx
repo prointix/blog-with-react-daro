@@ -18,7 +18,6 @@ function EditPost() {
   };
   const handleFileChange = (e: any) => {
     setArticle({ ...article, [e.target.id]: e.target.files[0] });
-    console.log(article.featuredAsset);
   };
 
   const editArticle = async (e: any) => {
@@ -29,9 +28,8 @@ function EditPost() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(article);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      alert(err.response.message);
     }
   };
 

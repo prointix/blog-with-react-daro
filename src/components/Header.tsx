@@ -3,22 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 import "../assets/styles/Home.css";
 import { useAuth } from "../contexts/auth";
-import { IAuthResponse, IUser } from "../types";
-
-interface HeaderProps {}
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<IAuthResponse | null>({
-    user: {
-      createdAt: "",
-      email: "",
-      id: 0,
-      name: "",
-      updatedAt: "",
-    },
-    accessToken: "",
-  });
   const { state, dispatch } = useAuth();
   const loginNavigate = (e: any) => {
     e.preventDefault();
