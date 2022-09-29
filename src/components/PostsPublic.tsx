@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import "../assets/styles/Home.css";
-import { useAuth } from "../contexts/auth";
+import Loading from "../pages/Loading";
 import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 export const PostsPublic = () => {
+  const [loading, setLoading] = useState(false);
   const [articles, setArticles] = useState<IArticleResponse>({
     data: [],
     meta: {
@@ -24,6 +26,7 @@ export const PostsPublic = () => {
         "/articles?order=asc&page=1&take=6"
       );
       setArticles(result.data);
+      setLoading(true);
     } catch (err) {
       console.log(err);
     }
@@ -49,38 +52,48 @@ export const PostsPublic = () => {
   }, []);
   //display the data
   return (
-    <div className="Box-container">
-      <section className="post container">
-        {articles.data.map((article) => (
-          <div className="post-box" key={article.id}>
-            <img src={article.featuredAsset?.url} alt="" className="post-img" />
-            <h2 className="category">Mobile</h2>
-            <a href="" className="post-title">
-              {article.title}
-            </a>
-            <span className="post-date">{article.createdAt}</span>
-            <p className="description">{article.description}</p>
-            <div className="profile">
-              <img
-                src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
-                alt=""
-                className="profile-img"
-              />
-              <span className="profile-name">{article.userId}</span>
-              <Link to={`/single-article/${article.id}`}>read more</Link>
-            </div>
-          </div>
-        ))}
-      </section>
-      <footer>
-        <button
-          disabled={!articles.meta.hasNextPage}
-          onClick={fetchMoreData}
-          className="load-more-btn"
-        >
-          load more
-        </button>
-      </footer>
+    <div>
+      {loading ? (
+        <div className="Box-container">
+          <section className="post container">
+            {articles.data.map((article) => (
+              <div className="post-box" key={article.id}>
+                <img
+                  src={article.featuredAsset?.url}
+                  alt=""
+                  className="post-img"
+                />
+                <h2 className="category">Mobile</h2>
+                <a href="" className="post-title">
+                  {article.title}
+                </a>
+                <span className="post-date">{article.createdAt}</span>
+                <p className="description">{article.description}</p>
+                <div className="profile">
+                  <img
+                    src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+                    alt=""
+                    className="profile-img"
+                  />
+                  <span className="profile-name">{article.userId}</span>
+                  <Link to={`/single-article/${article.id}`}>read more</Link>
+                </div>
+              </div>
+            ))}
+          </section>
+          <footer>
+            <button
+              disabled={!articles.meta.hasNextPage}
+              onClick={fetchMoreData}
+              className="load-more-btn"
+            >
+              load more
+            </button>
+          </footer>
+        </div>
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 };

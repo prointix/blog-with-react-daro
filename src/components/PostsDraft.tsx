@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/auth";
+import Loading from "../pages/Loading";
 import { IArticleResponse } from "../types";
 import api from "../utils/api";
 
 function PostsDraft() {
+  const [loading, setLoading] = useState(false);
   const { state } = useAuth();
   const [draftArticles, setDraftArticles] = useState<IArticleResponse>({
     data: [],
@@ -24,6 +26,7 @@ function PostsDraft() {
         "/articles/drafts?order=asc&page=1&take=5"
       );
       setDraftArticles(result.data);
+      setLoading(true);
     } catch (err) {
       console.log(err);
     }
@@ -99,6 +102,7 @@ function PostsDraft() {
           <h1 className="no-draft">You have no draft</h1>
         </div>
       )}
+      {!loading && <Loading />}
     </div>
   );
 }

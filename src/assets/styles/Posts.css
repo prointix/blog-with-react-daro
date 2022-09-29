@@ -1,11 +1,15 @@
 .container-newpost{
     max-width: 700px;
-    width: 100%;
     background-color: #fff;
     padding: 25px 30px;
     border-radius: 5px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
   }
+  .container-newpost{
+    margin: auto;
+    width:100%;
+  }
+  
   .container-newpost .title{
     font-size: 25px;
     font-weight: 500;
@@ -58,7 +62,9 @@
     display: block;
     font-weight: 500;
     margin-bottom: 5px;
+    font-size: 12px;
   }
+
   .user-details .input-box input{
     height: 45px;
     width: 200%;

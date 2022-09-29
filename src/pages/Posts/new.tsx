@@ -5,9 +5,11 @@ import { useAuth } from "../../contexts/auth";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
 import "../../assets/styles/Posts.css";
+import Loading from "../Loading";
 
 function NewPost() {
   const [article, setArticle] = useState<IArticle>({} as IArticle);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state } = useAuth();
 
@@ -31,6 +33,8 @@ function NewPost() {
           "Content-Type": "multipart/form-data",
         },
       });
+      setArticle(data);
+      setLoading(true);
       alert("Post created successfully");
       console.log(article);
       return data;
@@ -70,11 +74,12 @@ function NewPost() {
                   </div>
                   <div className="input-box">
                     <span className="details">body</span>
-                    <input
-                      type="text"
+                    <textarea
                       onChange={handleChange}
                       id="body"
                       required
+                      rows={15}
+                      cols={73}
                     />
                   </div>
                   <div className="file">
@@ -92,6 +97,7 @@ function NewPost() {
                 </div>
                 <div className="button">
                   <button onClick={handlePost}> Create Posts</button>
+                  {/* {loading && <Loading />} */}
                 </div>
               </form>
             </div>
