@@ -88,6 +88,7 @@ export const PostsPublic = () => {
               disabled={!articles.meta.hasNextPage}
               onClick={fetchMoreData}
               className="load-more-btn"
+              hidden={!articles.meta.hasNextPage}
             >
               load more
             </button>

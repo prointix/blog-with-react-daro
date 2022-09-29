@@ -92,7 +92,8 @@ function PostsDraft() {
               disabled={!draftArticles.meta.hasNextPage}
               onClick={fetchMoreData}
               className="load-more-btn"
-              hidden={draftArticles.data.length === 0}
+              //hide the button if there is no more data to show
+              hidden={!draftArticles.meta.hasNextPage}
             >
               load more
             </button>
