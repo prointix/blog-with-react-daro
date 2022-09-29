@@ -83,7 +83,13 @@ header{
   background: var(--second-color);
   color:var(--bg-color);
   cursor: pointer;
-  margin-left: 20%;
+  /* margin-left: 20%; */
+  /* make the button at the bottom and align with the article*/
+  margin: auto;
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 10px;
+
 }
 
 .option-btn{
@@ -101,7 +107,7 @@ header{
   border: none;
   border-radius: 2px;
   padding: 6px;
-  width: 100px;
+  width: 120px;
 }
 .option-btn button:hover{
   background-color: #fd8f44;

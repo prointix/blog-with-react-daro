@@ -43,7 +43,13 @@ function ShowPost() {
   };
 
   const unpublishArticle = async () => {
-    await api.post("/articles", article);
+    // request only title description body and featuredAsset to be updated
+    const { data } = await api.post<IArticle>("/articles", article, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    setArticle(data);
     article.published = false;
   };
 

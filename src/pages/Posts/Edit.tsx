@@ -6,35 +6,30 @@ import api from "../../utils/api";
 function EditPost() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [article, setArticle] = useState<IArticle>({
-    id: 0,
-    title: "",
-    description: "",
-    body: "",
-    featuredAsset: null,
-    createdAt: "",
-    updatedAt: "",
-    featuredAssetId: 0,
-    published: false,
-    userId: 0,
-  });
+  const [article, setArticle] = useState<IArticle>({} as IArticle);
 
   const fetchData = async () => {
     const { data } = await api.get<IArticle>(`/articles/${id}`);
     setArticle(data);
   };
 
+  const handleChange = (e: any) => {
+    setArticle({ ...article, [e.target.id]: e.target.value });
+  };
+  const handleFileChange = (e: any) => {
+    setArticle({ ...article, [e.target.id]: e.target.files[0] });
+    console.log(article.featuredAsset);
+  };
+
   const editArticle = async (e: any) => {
     e.preventDefault();
     try {
-      const result = await api.patch<IArticle>(`/articles/${id}`, article, {
+      await api.patch(`/articles/${id}`, article, {
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
         },
       });
-      alert("edit successfully");
-      return result;
+      console.log(article);
     } catch (err) {
       console.log(err);
     }
@@ -44,53 +39,15 @@ function EditPost() {
     navigate("/");
   };
 
-  const handleChange = (e: any) => {
-    setArticle({ ...article, [e.target.id]: e.target.value });
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
     <>
-      {/* <div>
-        <h1>Edit Post</h1>
-        <form action="">
-          <label htmlFor="">Title</label>
-          <input
-            id="title"
-            type="text"
-            value={article.title}
-            onChange={handleChange}
-          />
-          <label htmlFor="">Description</label>
-          <input
-            id="description"
-            type="text"
-            value={article?.description}
-            onChange={handleChange}
-          />
-          <label htmlFor="">Body</label>
-          <input
-            id="body"
-            type="text"
-            value={article.body}
-            onChange={handleChange}
-          />
-          <label htmlFor=""> featuredAsset</label>
-          <input
-            id="featuredAsset"
-            type="file"
-            value={article.featuredAsset?.fileName}
-            onChange={handleChange}
-          />
-          <button onClick={editArticle}>Edit</button>
-        </form>
-      </div> */}
       <div className="container-newpost">
         <button onClick={backFunction}>Back</button>
-        <div className="title">New Post</div>
+        <div className="title">Edit Post</div>
         <div className="content">
           <form action="#">
             <div className="user-details">
@@ -116,21 +73,24 @@ function EditPost() {
               </div>
               <div className="input-box">
                 <span className="details">body</span>
-                <input
-                  type="text"
-                  value={article.body}
+                <textarea
                   onChange={handleChange}
                   id="body"
                   required
+                  value={article.body}
+                  rows={15}
+                  cols={73}
                 />
               </div>
               <div className="file">
                 <span className="details" id="FeatureFile">
-                  FeatureAssets
+                  <img src={article.featuredAsset?.url} alt="" />
+                  Featured Image
                 </span>
                 <input
                   type="file"
                   placeholder="image"
+                  onChange={handleFileChange}
                   id="featuredAsset"
                   required
                 />

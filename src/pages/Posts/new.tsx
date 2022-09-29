@@ -5,11 +5,9 @@ import { useAuth } from "../../contexts/auth";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
 import "../../assets/styles/Posts.css";
-import Loading from "../Loading";
 
 function NewPost() {
   const [article, setArticle] = useState<IArticle>({} as IArticle);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { state } = useAuth();
 
@@ -34,7 +32,6 @@ function NewPost() {
         },
       });
       setArticle(data);
-      setLoading(true);
       alert("Post created successfully");
       console.log(article);
       return data;
@@ -49,7 +46,9 @@ function NewPost() {
       ) : (
         <>
           <div className="container-newpost">
-            <button onClick={backFunction}>Back</button>
+            <button id="back-btn" onClick={backFunction}>
+              Back
+            </button>
             <div className="title">New Post</div>
             <div className="content">
               <form action="#">
@@ -97,7 +96,6 @@ function NewPost() {
                 </div>
                 <div className="button">
                   <button onClick={handlePost}> Create Posts</button>
-                  {/* {loading && <Loading />} */}
                 </div>
               </form>
             </div>

@@ -71,12 +71,14 @@ export const PostsPublic = () => {
                 <p className="description">{article.description}</p>
                 <div className="profile">
                   <img
-                    src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                     alt=""
                     className="profile-img"
                   />
                   <span className="profile-name">{article.userId}</span>
-                  <Link to={`/single-article/${article.id}`}>read more</Link>
+                  <Link to={`/single-article/${article.id}`}>
+                    <button id="readmore-btn">read more</button>
+                  </Link>
                 </div>
               </div>
             ))}

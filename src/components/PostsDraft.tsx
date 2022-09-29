@@ -58,33 +58,35 @@ function PostsDraft() {
       {state.signed === false ? (
         <Navigate to="/signin" />
       ) : (
-        <section className="post container">
-          {draftArticles.data.map((draftArticles) => (
-            <div className="post-box" key={draftArticles.id}>
-              <img
-                src={draftArticles.featuredAsset?.url}
-                alt=""
-                className="post-img"
-              />
-              <h2 className="category">Mobile</h2>
-              <a href="" className="post-title">
-                Creating website using ReactTs
-              </a>
-              <span className="post-date">{draftArticles.createdAt}</span>
-              <p className="description">{draftArticles.description}</p>
-              <div className="profile">
+        <>
+          <section className="post container">
+            {draftArticles.data.map((draftArticles) => (
+              <div className="post-box" key={draftArticles.id}>
                 <img
-                  src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=1.00xw:0.669xh;0,0.190xh&resize=640:*"
+                  src={draftArticles.featuredAsset?.url}
                   alt=""
-                  className="profile-img"
+                  className="post-img"
                 />
-                <span className="profile-name">Daro Sim</span>
-                <Link to={`/single-article/${draftArticles.id}`}>
-                  read more
-                </Link>
+                <h2 className="category">Mobile</h2>
+                <a href="" className="post-title">
+                  Creating website using ReactTs
+                </a>
+                <span className="post-date">{draftArticles.createdAt}</span>
+                <p className="description">{draftArticles.description}</p>
+                <div className="profile">
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                    alt=""
+                    className="profile-img"
+                  />
+                  <span className="profile-name">Daro Sim</span>
+                  <Link to={`/single-article/${draftArticles.id}`}>
+                    <button>read more</button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </section>
           <footer>
             <button
               disabled={!draftArticles.meta.hasNextPage}
@@ -95,7 +97,7 @@ function PostsDraft() {
               load more
             </button>
           </footer>
-        </section>
+        </>
       )}
       {draftArticles.data.length === 0 && (
         <div>

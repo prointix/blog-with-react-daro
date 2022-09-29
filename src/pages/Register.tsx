@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import "../assets/styles/SignIn.css";
@@ -15,6 +15,7 @@ type FormData = {
 const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
 
 function Register() {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState<IRegister>({} as IRegister);
 
   const handleChange = (e: any) => {
@@ -33,6 +34,7 @@ function Register() {
         }
       );
       alert("Registration successful");
+      navigate("/signin");
       return data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
