@@ -23,11 +23,20 @@ function EditPost() {
   const editArticle = async (e: any) => {
     e.preventDefault();
     try {
-      await api.patch(`/articles/${id}`, article, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      await api.patch(
+        `/articles/${id}`,
+        {
+          title: article.title,
+          description: article.description,
+          body: article.body,
+          featuredAsset: article.featuredAsset,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
     } catch (err: any) {
       alert(err.response.message);
     }
