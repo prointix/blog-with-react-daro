@@ -58,12 +58,13 @@
     margin-bottom: 15px;
     width: calc(100% / 2 - 20px);
   }
-  form .input-box span.details{
+  form .input-box span.details {
     display: block;
     font-weight: 500;
     margin-bottom: 5px;
     font-size: 15px;
   }
+
 
   #back-btn{
     padding: 10px;
@@ -82,6 +83,17 @@
 
   .user-details .input-box input{
     height: 45px;
+    width: 200%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+  .user-details .input-box textarea{
+    height: 150px;
     width: 200%;
     outline: none;
     font-size: 16px;
@@ -119,3 +131,7 @@
   }
   }
   
+  .details img{
+    height: 250px;
+    width: 250px;
+  }

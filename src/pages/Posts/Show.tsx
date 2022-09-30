@@ -7,30 +7,23 @@ import Loading from "../Loading";
 
 function ShowPost() {
   const { id } = useParams();
-  const { state } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [article, setArticle] = useState<IArticle>({
-    id: 0,
-    title: "",
-    description: "",
-    body: "",
-    featuredAsset: null,
-    createdAt: "",
-    updatedAt: "",
-    featuredAssetId: 0,
-    published: false,
-    userId: 0,
-  });
+  const [article, setArticle] = useState<IArticle>({} as IArticle);
 
-  const publishArticle = async () => {
-    if (confirm("Are you sure you want to publish this article?")) {
-      await api.patch(`/articles/${id}/publish`);
-      article.published = true;
-      alert("Article published successfully");
-      navigate("/");
-    } else {
-      return;
+  const publishArticle = async (e: any) => {
+    e.preventDefault();
+    try {
+      if (confirm("Are you sure you want to publish this article?")) {
+        api.patch(`/articles/${id}/publish`).then((res) => {
+          setArticle(res.data);
+        });
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -40,17 +33,6 @@ function ShowPost() {
 
   const navigateToEdit = () => {
     return navigate(`/edit/${id}`);
-  };
-
-  const unpublishArticle = async () => {
-    // request only title description body and featuredAsset to be updated
-    const { data } = await api.post<IArticle>("/articles", article, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    setArticle(data);
-    article.published = false;
   };
 
   const deleteArticle = async () => {
@@ -79,13 +61,13 @@ function ShowPost() {
         <>
           <section className="post-header">
             <div className="option-btn">
-              {state.user?.id === article.userId ? (
+              {user?.id === article.userId ? (
                 <div>
                   <button onClick={backFunction}>Back</button>
                   {article.published === false ? (
                     <button onClick={publishArticle}>Publish</button>
                   ) : (
-                    <button onClick={unpublishArticle}>Unpublish</button>
+                    <button onClick={publishArticle}>Unpublish</button>
                   )}
                   <button onClick={navigateToEdit}>edit</button>
                   <button onClick={deleteArticle}>delete</button>

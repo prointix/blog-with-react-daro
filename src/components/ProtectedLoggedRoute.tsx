@@ -7,10 +7,12 @@ type Props = {
 };
 
 function ProtectedLoggedRoute({ children }: Props) {
-  const { state } = useAuth();
-  if (state.signed === true) {
+  const { signed } = useAuth();
+
+  if (signed) {
     return <Navigate to="/" replace />;
   }
+
   return children ? children : <Outlet />;
 }
 

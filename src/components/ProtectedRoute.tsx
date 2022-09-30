@@ -6,9 +6,9 @@ type Props = {
 };
 
 export function ProtectedRoute({ children }: Props) {
-  const { state } = useAuth();
+  const { signed } = useAuth();
 
-  if (state.signed === false) {
+  if (!signed) {
     return <Navigate to="/signin" replace />;
   }
   return children ? children : <Outlet />;

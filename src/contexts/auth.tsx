@@ -1,8 +1,6 @@
 import {
   default as React,
   createContext,
-  Dispatch,
-  useReducer,
   useState,
   useEffect,
   useContext,
@@ -10,98 +8,105 @@ import {
 import { IAuthContext, IAuthResponse, IUser } from "../types";
 import api from "../utils/api";
 
-type AppState = typeof INITIAL_STATE;
-
-type Action =
-  | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: any }
-  | { type: "LOGIN_FAILURE"; payload: any }
-  | { type: "LOGOUT" };
-
 interface UserContextProviderProps {
   children: React.ReactNode;
 }
 
-const INITIAL_STATE: IAuthContext = {
+// // const INITIAL_STATE: IAuthContext = {
+// //   signed: false,
+// //   user: null,
+// //   loading: false,
+// //   error: false,
+// //   login: (data: IAuthResponse) => {},
+// //   logout: () => {},
+// // };
+
+// // //checka if token in localstorage exist
+
+// // const reducer = (state: AppState, action: Action) => {
+// //   switch (action.type) {
+// //     case "LOGIN_START":
+// //       return {
+// //         ...state,
+// //         signed: true,
+// //         loading: true,
+// //         error: false,
+// //       };
+
+// //     case "LOGIN_SUCCESS":
+// //       return {
+// //         ...state,
+// //         signed: true,
+// //         user: action.payload,
+// //         loading: false,
+// //         error: action.payload,
+// //       };
+// //     case "LOGIN_FAILURE":
+// //       return {
+// //         ...state,
+// //         user: null,
+// //         loading: false,
+// //         error: action.payload,
+// //       };
+// //     case "LOGOUT":
+// //       return {
+// //         ...state,
+// //         user: null,
+// //         loading: false,
+// //         error: null,
+// //       };
+// //     default:
+// //       return state;
+// //   }
+// // };
+
+const AuthContext = createContext<IAuthContext>({
   signed: false,
   user: null,
   loading: false,
-  error: false,
-  login: (data: IAuthResponse) => {},
+  login: () => {},
   logout: () => {},
-};
-
-//checka if token in localstorage exist
-
-const reducer = (state: AppState, action: Action) => {
-  switch (action.type) {
-    case "LOGIN_START":
-      return {
-        ...state,
-        signed: true,
-        loading: true,
-        error: false,
-      };
-
-    case "LOGIN_SUCCESS":
-      return {
-        ...state,
-        signed: true,
-        user: action.payload,
-        loading: false,
-        error: action.payload,
-      };
-    case "LOGIN_FAILURE":
-      return {
-        ...state,
-        user: null,
-        loading: false,
-        error: action.payload,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        user: null,
-        loading: false,
-        error: null,
-      };
-    default:
-      return state;
-  }
-};
-
-const AuthContext = createContext<{
-  state: AppState;
-  dispatch: Dispatch<Action>;
-}>({ state: INITIAL_STATE, dispatch: () => {} });
+});
 
 const AuthProvider = ({ children }: UserContextProviderProps) => {
-  const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const [user, setUser] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const login = (data: IAuthResponse) => {
+    setUser(data.user);
+    localStorage.setItem("token", data.accessToken);
+    api.defaults.headers.common.Authorization = `Bearer ${data.accessToken}`;
+  };
+
+  function logout() {
+    setUser(null);
+    localStorage.removeItem("token");
+    api.defaults.headers.common.Authorization = "";
+  }
 
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
     api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
+    setLoading(true);
     api
       .get<IUser>("/auth/me")
       .then((response) => {
         setUser(response.data);
-        if (!!accessToken) {
-          state.signed = true;
-        }
-        state.user(user);
+        setLoading(false);
       })
       .catch((error) => {
         if (error.response.status === 401) {
           localStorage.removeItem("token");
-          dispatch({ type: "LOGOUT" });
+          setLoading(false);
         }
       });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider
+      value={{ user, loading, signed: !!user, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

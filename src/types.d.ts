@@ -4,7 +4,6 @@ export interface IAuthContext {
   signed: boolean;
   user: IUser | null;
   loading: boolean;
-  error: boolean;
   logout: () => void;
   login: (data: IAuthResponse) => void;
 }

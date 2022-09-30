@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import "../../assets/styles/Posts.css";
 import { IArticle } from "../../types";
 import api from "../../utils/api";
 
@@ -54,7 +56,9 @@ function EditPost() {
   return (
     <>
       <div className="container-newpost">
-        <button onClick={backFunction}>Back</button>
+        <button id="back-btn" onClick={backFunction}>
+          Back
+        </button>
         <div className="title">Edit Post</div>
         <div className="content">
           <form action="#">
@@ -93,8 +97,8 @@ function EditPost() {
               <div className="file">
                 <span className="details" id="FeatureFile">
                   <img src={article.featuredAsset?.url} alt="" />
-                  Featured Image
                 </span>
+                Featured Image
                 <input
                   type="file"
                   placeholder="image"

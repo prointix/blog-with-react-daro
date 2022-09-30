@@ -1,25 +1,15 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 import "../assets/styles/Home.css";
 import { useAuth } from "../contexts/auth";
 
 export const Header: React.FC = () => {
-  const navigate = useNavigate();
-  const { state, dispatch } = useAuth();
-  const loginNavigate = (e: any) => {
-    e.preventDefault();
-    navigate("/signin");
-  };
+  const { signed, user, logout } = useAuth();
 
-  const logoutHandler = (e: any) => {
-    e.preventDefault();
+  const logoutHandler = () => {
     if (confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("token");
-      state.signed = false;
-      dispatch({ type: "LOGOUT" });
-    } else {
-      return;
+      logout();
     }
   };
 
@@ -30,14 +20,14 @@ export const Header: React.FC = () => {
           <a href="" className="logo">
             ve<span>nom</span>
           </a>
-          {state.signed === true ? (
+          {signed ? (
             <a onClick={logoutHandler} className="login">
               Logout
             </a>
           ) : (
-            <a onClick={loginNavigate} className="login">
+            <Link to="/signin" className="login">
               Login
-            </a>
+            </Link>
           )}
         </div>
       </header>
@@ -45,9 +35,9 @@ export const Header: React.FC = () => {
       <section className="home" id="home">
         <div className="home-context container">
           <h2 className="home-title-box">The TS Blog</h2>
-          {state.signed === true ? (
+          {signed === true ? (
             <span className="home-subtitle-box">
-              Welcome Back Mr. {state.user?.name}
+              Welcome Back Mr. {user?.name}
             </span>
           ) : (
             <span className="home-subtitle-box">Post your blog with us</span>

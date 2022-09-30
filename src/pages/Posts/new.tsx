@@ -9,7 +9,8 @@ import "../../assets/styles/Posts.css";
 function NewPost() {
   const [article, setArticle] = useState<IArticle>({} as IArticle);
   const navigate = useNavigate();
-  const { state } = useAuth();
+  const { signed } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
     setArticle({ ...article, [e.target.id]: e.target.value });
@@ -25,6 +26,7 @@ function NewPost() {
   const handlePost = async (e: any) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const { data } = await api.post("/articles", article, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -32,14 +34,16 @@ function NewPost() {
       });
       setArticle(data);
       alert("Post created successfully");
+      setLoading(false);
       return data;
     } catch (error: any) {
       alert(error.response.message);
+      setLoading(false);
     }
   };
   return (
     <>
-      {state.signed === false ? (
+      {!signed ? (
         <Navigate to="/signin" />
       ) : (
         <>
@@ -93,7 +97,9 @@ function NewPost() {
                   </div>
                 </div>
                 <div className="button">
-                  <button onClick={handlePost}> Create Posts</button>
+                  <button onClick={handlePost}>
+                    {loading ? "creating..." : " Create Post"}
+                  </button>
                 </div>
               </form>
             </div>

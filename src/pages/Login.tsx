@@ -1,69 +1,39 @@
 // Validation with react-hook-form
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import "../assets/styles/SignIn.css";
-import { AuthContext } from "../contexts/auth";
-import { IAuthResponse, ILogin, IUser } from "../types";
+import { useAuth } from "../contexts/auth";
+import { IAuthResponse } from "../types";
 import api from "../utils/api";
-import { SubmitHandler, useForm } from "react-hook-form";
 
-type FormData = {
+type FormValues = {
   email: string;
   password: string;
 };
 
-const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
-
 function Login() {
-  const [credentials, setCredentials] = useState<ILogin>({} as ILogin);
-  const { state, dispatch } = useContext(AuthContext);
-  const [user, setUser] = useState<IUser>({
-    createdAt: "",
-    email: "",
-    id: 0,
-    name: "",
-    updatedAt: "",
-  });
+  const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<FormData>();
+  } = useForm<FormValues>();
 
-  const handleChange = (e: any) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-
-  const login = ({ user, accessToken }: IAuthResponse) => {
-    setUser(user);
-    localStorage.setItem("token", accessToken);
-    api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  };
-
-  const handleClick = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async (values: FormValues) => {
     try {
-      const { data } = await api.post<IAuthResponse>(
-        "/auth/login",
-        credentials,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      dispatch({ type: "LOGIN_SUCCESS", payload: data.user });
+      setLoading(true);
+      const { data } = await api.post<IAuthResponse>("/auth/login", values);
       login(data);
-      navigate("/");
-      return data;
+      setLoading(false);
     } catch (error: any) {
       alert(error.response.data.message);
+      setLoading(false);
     }
-    return user;
   };
-
-  const navigate = useNavigate();
 
   return (
     <div className="sign-in">
@@ -106,7 +76,6 @@ function Login() {
                   placeholder="  email"
                   id="email"
                   {...register("email", { required: true })}
-                  onChange={handleChange}
                   className="lInput"
                 />
                 {errors.email && "email is required"}
@@ -120,19 +89,13 @@ function Login() {
                   placeholder="  password"
                   id="password"
                   {...register("password", { required: true })}
-                  onChange={handleChange}
                   className="lInput"
                 />
                 {errors.password && "password is required"}
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                <button
-                  disabled={state.loading}
-                  onClick={handleClick}
-                  className="submit-btn"
-                >
+                <button type="submit" disabled={loading} className="submit-btn">
                   SignIn
                 </button>
-                {state.error && <span className="failure">{state.error}</span>}
               </div>
             </form>
           </div>

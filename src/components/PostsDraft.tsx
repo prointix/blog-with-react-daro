@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/auth";
 import Loading from "../pages/Loading";
 import { IArticleResponse } from "../types";
@@ -7,7 +7,7 @@ import api from "../utils/api";
 
 function PostsDraft() {
   const [loading, setLoading] = useState(false);
-  const { state } = useAuth();
+  const { signed } = useAuth();
   const [draftArticles, setDraftArticles] = useState<IArticleResponse>({
     data: [],
     meta: {
@@ -55,7 +55,7 @@ function PostsDraft() {
 
   return (
     <div className="Box-container">
-      {state.signed === false ? (
+      {!signed ? (
         <Navigate to="/signin" />
       ) : (
         <>
