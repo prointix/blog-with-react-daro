@@ -69,7 +69,7 @@ function PostsDraft() {
                 />
                 <h2 className="category">Mobile</h2>
                 <a href="" className="post-title">
-                  Creating website using ReactTs
+                  {draftArticles.title}
                 </a>
                 <span className="post-date">{draftArticles.createdAt}</span>
                 <p className="description">{draftArticles.description}</p>
