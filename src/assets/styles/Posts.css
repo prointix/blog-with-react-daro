@@ -1,0 +1,137 @@
+.container-newpost{
+    max-width: 700px;
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+  }
+  .container-newpost{
+    margin: auto;
+    width:100%;
+  }
+  
+  .container-newpost .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+  }
+  .container-newpost .title::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    border-radius: 5px;
+    background: var(--second-color)
+  }
+  .file{
+    display: flex;
+    flex-direction: column;
+  }
+  #FeatureFile{
+    margin-bottom: 10px;
+  }
+  .button-new{
+    padding: 8px 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    border : none;
+    background-color: var(--second-color);
+  }
+  .button-new:hover{
+    
+        background-color: hsl(24,98%,58%);
+        transition: 0.3s;
+      
+  }
+  .content form .user-details{
+    
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+  }
+  form .user-details .input-box{
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+  }
+  form .input-box span.details {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-size: 15px;
+  }
+
+
+  #back-btn{
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 90px;
+    font-size: 15px;
+    font-weight: 500px;
+    border: none;
+    cursor: pointer;
+  }
+
+
+  #back-btn:hover{
+    background-color:var(--second-color);
+  }
+
+  .user-details .input-box input{
+    height: 45px;
+    width: 200%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+  .user-details .input-box textarea{
+    height: 150px;
+    width: 200%;
+    outline: none;
+    font-size: 16px;
+    border-radius: 5px;
+    padding-left: 15px;
+    border: 1px solid #ccc;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+  }
+   form .button{
+     height: 45px;
+     margin: 35px 0
+   }
+   form .button button{
+     height: 100%;
+     width: 20%;
+     border-radius: 5px;
+     border: none;
+     color: #fff;
+     font-size: 18px;
+     font-weight: 500;
+     letter-spacing: 1px;
+     cursor: pointer;
+     transition: all 0.3s ease;
+     background: var(--second-color)
+     ;
+   }
+   form .button input:hover{
+    /* transform: scale(0.99); */
+    background: var(--second-color)
+    }
+   @media(max-width: 584px){
+   .container{
+    max-width: 100%;
+  }
+  }
+  
+  .details img{
+    height: 250px;
+    width: 250px;
+  }

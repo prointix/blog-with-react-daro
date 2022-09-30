@@ -1,5 +1,6 @@
+import "../assets/styles/Loading.css";
 function Loading() {
-  return <div>Loading</div>;
+  return <span className="lds-hourglass"></span>;
 }
 
 export default Loading;

@@ -1,0 +1,232 @@
+
+
+.sign-in{
+    background-image: url("../../assets/img/backgImg.png");
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100%;
+      font-family: 'Poppins';
+  }
+  .sign-in .logo{
+      padding: 19px 0px 0px 50px;
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 30px;
+      color: #FFFFFF;
+  }
+  
+  .sign-in .login-signin{
+    margin-bottom: 5px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 55px;
+    line-height: 82px;
+  }
+  .sign-in .login-container {
+    flex:1;
+    max-height: 741px;
+    background: white;
+    margin: 15px 70px 40px 400px;
+    border-radius: 40px;
+  
+  }
+  .sign-in .login-header-text span{
+    margin-top: 6px;
+    margin-left: auto;
+  }
+  
+  .sign-in .login-header-text{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .sign-in .login-header-text p{
+    font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 32px;
+  }
+  
+  .sign-in .login-elements{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 50px;
+  }
+  .sign-in .header{
+      display: flex;
+  }
+  
+  .sign-in .text-container{
+      
+      margin-left: 73px;
+      margin-top: 70px;
+  }
+  
+  .sign-in .text-container p {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 00;
+    font-size: 24px;
+    line-height: 36px;
+  }
+  
+  .sign-in .text-container span{
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 300;
+      font-size: 13px;
+      line-height: 20px;
+      color: #FFFFFF;
+  }
+  
+  .sign-in #header{
+     font-weight: 600px;
+    font-size: 70px;
+    line-height: 51px;
+    color: #FFFFFF;
+  }
+  
+  .sign-in .login-header-text a{
+      text-decoration: none;
+  }
+  
+  .sign-in .google>img{
+    width: 26px;
+    height: 26px;
+  }
+  .sign-in .google>p{
+    font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height */
+  
+  
+  color: #4285F4;
+  }
+  
+  .sign-in .google{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sign-in .small-btn{
+    margin-left: auto;
+  }
+  .sign-in .signin-btn button{
+    border-radius: 9px;
+    flex:0.85; 
+    height: 55px;
+    justify-content: space-around;
+    background-color: #E9F1FF;
+    border:none;
+    outline:none;
+  }
+  
+  .sign-in #icon{
+    width: 26px;
+    height: 26px;
+  }
+  .sign-in #FA-icon{
+    width: 60px;
+    height: 55px;
+  }
+  
+  .sign-in .signin-btn{
+    display: flex;
+    margin-bottom: 30px;
+  }
+  .sign-in .login-input{
+    display: flex;
+    flex-direction: column;
+  }
+  .sign-in .login-input input{
+    background: #FFFFFF;
+    border: 1px solid #ADADAD;
+    border-radius: 9px;
+    box-sizing: border-box;
+    height: 51px;
+  }
+   .sign-in a {
+    padding: 0px 0px 25px;
+    display: flex;
+    justify-content: flex-end;
+    text-decoration: none;
+    
+  }
+  .sign-in .user-name-tel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .sign-in .submit-btn{
+    background: #0089ED;
+    border: none;
+    border-radius: 9px;
+    box-sizing: border-box;
+    height: 51px; 
+    font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  cursor: pointer;
+  width: 400px;
+  outline: none;
+  /* identical to box height */
+  
+  
+  color: #FFFFFF;
+  }
+  /* .login-input label{
+    display
+  } */
+  
+  
+  .sign-in .card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    max-width: 145px;
+    text-align: center;
+    background-color: #EFF8FF;
+    height: 250px;
+  }
+  .sign-in .card_img {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    border-radius: 100%;
+    margin: 25px auto 0;
+  }
+  .sign-in .card button img{
+    border: none;
+    width: 16px
+  }
+  .sign-in .card button{
+    border: none;
+    background-color: #EFF8FF;
+  }
+  
+  .card_img #profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sign-in .card_info {
+    padding-bottom: 20px;
+  }
+  .sign-in .login-input a{
+    cursor: default;
+  }
+  #error{
+    color: red;
+  }
+  
+  
