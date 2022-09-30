@@ -37,6 +37,7 @@ function EditPost() {
           },
         }
       );
+      alert("Article edited successfully");
     } catch (err: any) {
       alert(err.response.message);
     }
